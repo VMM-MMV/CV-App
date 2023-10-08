@@ -10,6 +10,7 @@ function PersonForm() {
     const [sex, setSex] = useState('');
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
+    const [hasKids, setHasKids] = useState('');
 
     const cities = [
         "Chișinău", "Bălți", "Bender", "Briceni", "Vadul lui Vodă", "Vulcănești", "Glodeni",
@@ -28,14 +29,14 @@ function PersonForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !lastname || !day || !month || !year || !sex || !city || !email) {
+        if (!name || !lastname || !day || !month || !year || !sex || !city || !email || !hasKids) {
             alert('Please fill out all fields.');
             return;
         }
 
         try {
             const birthdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex , email});
+            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex , email, hasKids});
             alert('Person added successfully!');
             setName('');
             setLastname('');
@@ -45,6 +46,7 @@ function PersonForm() {
             setSex('');
             setCity('');
             setEmail('');
+            setHasKids('');
         } catch (error) {
             alert('Error adding person: ' + error);
         }
@@ -83,6 +85,13 @@ function PersonForm() {
                     <option value="">Select gender</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
+                </select><br />
+
+                Has Kids:<br />
+                <select value={hasKids} onChange={e => setHasKids(e.target.value)}>
+                    <option value="">Select Option</option>
+                    <option value="YES">Yes</option>
+                    <option value="NO">No</option>
                 </select><br />
 
                 <button type="submit">Add</button>
