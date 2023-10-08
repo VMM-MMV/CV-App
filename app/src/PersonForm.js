@@ -9,6 +9,7 @@ function PersonForm() {
     const [year, setYear] = useState('');
     const [sex, setSex] = useState('');
     const [city, setCity] = useState('');
+    const [email, setEmail] = useState('');
 
     const cities = [
         "Chișinău", "Bălți", "Bender", "Briceni", "Vadul lui Vodă", "Vulcănești", "Glodeni",
@@ -27,14 +28,14 @@ function PersonForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !lastname || !day || !month || !year || !sex || !city) {
+        if (!name || !lastname || !day || !month || !year || !sex || !city || !email) {
             alert('Please fill out all fields.');
             return;
         }
 
         try {
             const birthdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex });
+            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex , email});
             alert('Person added successfully!');
             setName('');
             setLastname('');
@@ -43,6 +44,7 @@ function PersonForm() {
             setYear('');
             setSex('');
             setCity('');
+            setEmail('');
         } catch (error) {
             alert('Error adding person: ' + error);
         }
@@ -54,6 +56,7 @@ function PersonForm() {
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} /><br />
                 <input type="text" placeholder="Enter lastname" value={lastname} onChange={e => setLastname(e.target.value)} /><br />
+                <input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} /><br />
 
                 Date of Birth:<br />
                 <select value={day} onChange={e => setDay(e.target.value)}>
