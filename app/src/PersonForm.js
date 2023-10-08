@@ -7,6 +7,16 @@ function PersonForm() {
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
+    const [city, setCity] = useState('');
+
+    const cities = [
+        "Chișinău", "Bălți", "Bender", "Briceni", "Vadul lui Vodă", "Vulcănești", "Glodeni",
+        "Dondușeni", "Drochia", "Dubăsari", "Edineț", "Cahul", "Călărași", "Cantemir",
+        "Căușeni", "Comrat", "Criuleni", "Leova", "Leușeni", "Nisporeni", "Anenii Noi",
+        "Ocnița", "Orhei", "Rezina", "Rîbnița", "Rîșcani", "Soroca", "Strășeni", "Sîngerei",
+        "Taraclia", "Telenești", "Tiraspol", "Ungheni", "Fălești", "Florești", "Hîncești",
+        "Cădăr-Lunga", "Cimișlia", "Șoldănești", "Ștefan Vodă", "Ialoveni"
+    ];
 
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -17,15 +27,16 @@ function PersonForm() {
         e.preventDefault();
         try {
             const birthdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate });
+            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city });
             alert('Person added successfully!');
             setName('');
             setLastname('');
             setDay('');
             setMonth('');
             setYear('');
+            setCity('');
         } catch (error) {
-            alert('Error adding person: ', error);
+            alert('Error adding person: ' + error);
         }
     };
 
@@ -47,6 +58,11 @@ function PersonForm() {
                 <select value={year} onChange={e => setYear(e.target.value)}>
                     <option value="">Year</option>
                     {years.map(y => <option key={y} value={y}>{y}</option>)}
+                </select><br />
+                City:<br />
+                <select value={city} onChange={e => setCity(e.target.value)}>
+                    <option value="">Select a city</option>
+                    {cities.map(c => <option key={c} value={c}>{c}</option>)}
                 </select><br />
                 <button type="submit">Add</button>
             </form>
