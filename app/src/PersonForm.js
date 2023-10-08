@@ -11,6 +11,9 @@ function PersonForm() {
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
     const [hasKids, setHasKids] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [countryCode, setCountryCode] = useState('');
+
 
     const cities = [
         "Chișinău", "Bălți", "Bender", "Briceni", "Vadul lui Vodă", "Vulcănești", "Glodeni",
@@ -21,6 +24,12 @@ function PersonForm() {
         "Cădăr-Lunga", "Cimișlia", "Șoldănești", "Ștefan Vodă", "Ialoveni"
     ];
 
+    const countries = [
+        {name: 'Moldova', code: '+373'},
+        {name: 'Romania', code: '+40'},
+        {name: 'Japan', code: '+81'}
+    ];
+
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const currentYear = new Date().getFullYear();
@@ -29,14 +38,14 @@ function PersonForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !lastname || !day || !month || !year || !sex || !city || !email || !hasKids) {
+        if (!name || !lastname || !day || !month || !year || !sex || !city || !email || !hasKids || !phoneNumber || !countryCode) {
             alert('Please fill out all fields.');
             return;
         }
 
         try {
             const birthdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex , email, hasKids});
+            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex , email, hasKids, phoneNumber, countryCode});
             alert('Person added successfully!');
             setName('');
             setLastname('');
@@ -46,6 +55,8 @@ function PersonForm() {
             setSex('');
             setCity('');
             setEmail('');
+            setCountryCode('');
+            setPhoneNumber('');
             setHasKids('');
         } catch (error) {
             alert('Error adding person: ' + error);
@@ -93,6 +104,23 @@ function PersonForm() {
                     <option value="YES">Yes</option>
                     <option value="NO">No</option>
                 </select><br />
+
+                Number:<br />
+                <select value={countryCode} onChange={e => setCountryCode(e.target.value)}>
+                    <option value="">Select Country</option>
+                    {countries.map(country => (
+                        <option key={country.code} value={country.code}>
+                            {country.name} ({country.code})
+                        </option>
+                    ))}
+                </select>
+                <input 
+                    type="text" 
+                    value={phoneNumber} 
+                    onChange={e => setPhoneNumber(e.target.value)} 
+                    placeholder="Phone Number"
+                />
+                <br />
 
                 <button type="submit">Add</button>
             </form>
