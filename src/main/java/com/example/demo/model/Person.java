@@ -12,6 +12,10 @@ public class Person {
     public enum Sex {
         MALE, FEMALE
     }
+
+    public enum Kids {
+        YES, NO
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
     @SequenceGenerator(name = "person_id_seq", sequenceName = "person_id_seq", allocationSize = 1, initialValue = 1000)
@@ -26,6 +30,9 @@ public class Person {
     private String city;
     @Enumerated(EnumType.STRING)
     private Sex sex;
+
+    @Enumerated(EnumType.STRING)
+    private Kids hasKids;
 
     @Column(unique = true)
     private String email;
