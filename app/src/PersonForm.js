@@ -7,6 +7,7 @@ function PersonForm() {
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
+    const [sex, setSex] = useState('');
     const [city, setCity] = useState('');
 
     const cities = [
@@ -25,15 +26,22 @@ function PersonForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!name || !lastname || !day || !month || !year || !sex || !city) {
+            alert('Please fill out all fields.');
+            return;
+        }
+
         try {
             const birthdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city });
+            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex });
             alert('Person added successfully!');
             setName('');
             setLastname('');
             setDay('');
             setMonth('');
             setYear('');
+            setSex('');
             setCity('');
         } catch (error) {
             alert('Error adding person: ' + error);
@@ -46,6 +54,7 @@ function PersonForm() {
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} /><br />
                 <input type="text" placeholder="Enter lastname" value={lastname} onChange={e => setLastname(e.target.value)} /><br />
+
                 Date of Birth:<br />
                 <select value={day} onChange={e => setDay(e.target.value)}>
                     <option value="">Day</option>
@@ -59,11 +68,20 @@ function PersonForm() {
                     <option value="">Year</option>
                     {years.map(y => <option key={y} value={y}>{y}</option>)}
                 </select><br />
+
                 City:<br />
                 <select value={city} onChange={e => setCity(e.target.value)}>
                     <option value="">Select a city</option>
                     {cities.map(c => <option key={c} value={c}>{c}</option>)}
                 </select><br />
+
+                Sex:<br />
+                <select value={sex} onChange={e => setSex(e.target.value)}>
+                    <option value="">Select gender</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select><br />
+
                 <button type="submit">Add</button>
             </form>
         </div>
