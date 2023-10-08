@@ -26,4 +26,8 @@ public class Person {
     private String city;
     @Enumerated(EnumType.STRING)
     private Sex sex;
+
+    @Column(unique = true)
+    private String email;
+
 }
