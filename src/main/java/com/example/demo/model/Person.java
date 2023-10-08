@@ -37,4 +37,8 @@ public class Person {
     @Column(unique = true)
     private String email;
 
+    private String phoneNumber;
+
+    private String countryCode;
+
 }
