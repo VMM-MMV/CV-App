@@ -130,67 +130,32 @@ function PersonForm() {
 
                 </footer>
             </aside>
-            <div class="content-container">
-                <div class="main-page">
-                    <h2>Add Person</h2>
-                    <form onSubmit={handleSubmit}>
-                        <input type="text" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} /><br />
-                        <input type="text" placeholder="Enter lastname" value={lastname} onChange={e => setLastname(e.target.value)} /><br />
-                        <input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} /><br />
-
-                        Date of Birth:<br />
-                        <select value={day} onChange={e => setDay(e.target.value)}>
-                            <option value="">Day</option>
-                            {days.map(d => <option key={d} value={d}>{d}</option>)}
-                        </select>
-                        <select value={month} onChange={e => setMonth(e.target.value)}>
-                            <option value="">Month</option>
-                            {months.map(m => <option key={m} value={m}>{m}</option>)}
-                        </select>
-                        <select value={year} onChange={e => setYear(e.target.value)}>
-                            <option value="">Year</option>
-                            {years.map(y => <option key={y} value={y}>{y}</option>)}
-                        </select><br />
-
-                        City:<br />
-                        <select value={city} onChange={e => setCity(e.target.value)}>
-                            <option value="">Select a city</option>
-                            {cities.map(c => <option key={c} value={c}>{c}</option>)}
-                        </select><br />
-
-                        Sex:<br />
-                        <select value={sex} onChange={e => setSex(e.target.value)}>
-                            <option value="">Select gender</option>
-                            <option value="MALE">Male</option>
-                            <option value="FEMALE">Female</option>
-                        </select><br />
-
-                        Has Kids:<br />
-                        <select value={hasKids} onChange={e => setHasKids(e.target.value)}>
-                            <option value="">Select Option</option>
-                            <option value="YES">Yes</option>
-                            <option value="NO">No</option>
-                        </select><br />
-
-                        Number:<br />
-                        <select value={countryCode} onChange={e => setCountryCode(e.target.value)}>
-                            <option value="">Select Country</option>
-                            {countries.map(country => (
-                                <option key={country.code} value={country.code}>
-                                    {country.name} ({country.code})
-                                </option>
-                            ))}
-                        </select>
-                        <input 
-                            type="text" 
-                            value={phoneNumber} 
-                            onChange={e => setPhoneNumber(e.target.value)} 
-                            placeholder="Phone Number"
-                        />
-                        <br />
-
-                        <button type="submit">Add</button>
-                    </form>
+            <div class="aside-right">
+                <div class="container">
+                    <div class="main-page">
+                        <div class="space"> 
+                            <h1 class="page-title">Let's start to create your CV together!</h1>
+                            <h2 class="sub-title">Type the all necessary information about your personality in order to contact you soon!</h2>
+                            <div class="form">
+                                <form onSubmit={handleSubmit}>
+                                    <div class="name-full-fields">
+                                        <div class="first-name-field" name="enter-first-name">
+                                            <label class>
+                                                First Name:
+                                            </label>
+                                            <input type="text" placeholder="e.g Michael" class="form-name" autocomplete="given-name" value={name} onChange={e => setName(e.target.value)}/>
+                                        </div>
+                                        <div class="last-name-field">
+                                            <label class>
+                                                Last Name:
+                                            </label>
+                                            <input type="text" placeholder="e.g Carlson" class="form-name" autocomplete="family-name" value={lastname} onChange={e => setLastname(e.target.value)} style={{ height: "40px", padding: "10px" }} />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -198,3 +163,63 @@ function PersonForm() {
 }
 
 export default PersonForm;
+
+
+/*
+</div>
+<div class="email-field">
+<input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} style={{ height: "40px", padding: "10px" }} />
+</div>*/
+
+/*Date of Birth:<br />
+                                    <select value={day} onChange={e => setDay(e.target.value)}>
+                                        <option value="">Day</option>
+                                        {days.map(d => <option key={d} value={d}>{d}</option>)}
+                                    </select>
+                                    <select value={month} onChange={e => setMonth(e.target.value)}>
+                                        <option value="">Month</option>
+                                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                    </select>
+                                    <select value={year} onChange={e => setYear(e.target.value)}>
+                                        <option value="">Year</option>
+                                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                    </select><br />
+
+                                    City:<br />
+                                    <select value={city} onChange={e => setCity(e.target.value)}>
+                                        <option value="">Select a city</option>
+                                        {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                                    </select><br />
+
+                                    Sex:<br />
+                                    <select value={sex} onChange={e => setSex(e.target.value)}>
+                                        <option value="">Select gender</option>
+                                        <option value="MALE">Male</option>
+                                        <option value="FEMALE">Female</option>
+                                    </select><br />
+
+                                    Has Kids:<br />
+                                    <select value={hasKids} onChange={e => setHasKids(e.target.value)}>
+                                        <option value="">Select Option</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select><br />
+
+                                    Number:<br />
+                                    <select value={countryCode} onChange={e => setCountryCode(e.target.value)}>
+                                        <option value="">Select Country</option>
+                                        {countries.map(country => (
+                                            <option key={country.code} value={country.code}>
+                                                {country.name} ({country.code})
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <input 
+                                        type="text" 
+                                        value={phoneNumber} 
+                                        onChange={e => setPhoneNumber(e.target.value)} 
+                                        placeholder="Phone Number"
+                                    />
+                                    <br />
+
+                                    <button type="submit">Add</button>*/
