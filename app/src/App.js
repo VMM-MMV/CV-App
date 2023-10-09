@@ -5,9 +5,9 @@ import PersonForm from './PersonForm';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <PersonForm />
-      </header>
+      <div class="opacity">
+          <PersonForm />
+      </div>
     </div>
   );
 }
