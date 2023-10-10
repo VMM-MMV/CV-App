@@ -13,7 +13,9 @@ function PersonForm() {
     const [hasKids, setHasKids] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [countryCode, setCountryCode] = useState('');
-
+    const [address, setAddress] = useState('');
+    const [nationality, setNationality] = useState('');
+    const [civilStatus, setCivilStatus] = useState('');
 
     const cities = [
         "Chișinău", "Bălți", "Bender", "Briceni", "Vadul lui Vodă", "Vulcănești", "Glodeni",
@@ -81,7 +83,6 @@ function PersonForm() {
         { name: 'Algeria', code: '+213' },
     ];
     
-
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const currentYear = new Date().getFullYear();
@@ -90,17 +91,20 @@ function PersonForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !lastname || !day || !month || !year || !sex || !city || !email || !hasKids || !phoneNumber || !countryCode) {
+        if (!name || !lastname || !address || !nationality || !civilStatus || !day || !month || !year || !sex || !city || !email || !hasKids || !phoneNumber || !countryCode) {
             alert('Please fill out all fields.');
             return;
         }
 
         try {
             const birthdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', { name, lastname, birthdate, city, sex , email, hasKids, phoneNumber, countryCode});
+            await axios.post('http://localhost:8080/addPerson', {name, lastname, address, nationality, civilStatus, birthdate, city, sex , email, hasKids, phoneNumber, countryCode});
             alert('Person added successfully!');
             setName('');
             setLastname('');
+            setAddress('');
+            setNationality('');
+            setCivilStatus('');
             setDay('');
             setMonth('');
             setYear('');
@@ -149,7 +153,55 @@ function PersonForm() {
                                             <label class>
                                                 Last Name:
                                             </label>
-                                            <input type="text" placeholder="e.g Carlson" class="form-name" autocomplete="family-name" value={lastname} onChange={e => setLastname(e.target.value)} style={{ height: "40px", padding: "10px" }} />
+                                            <input type="text" placeholder="e.g Carlson" class="form-name" autocomplete="family-name" value={lastname} onChange={e => setLastname(e.target.value)}/>
+                                        </div>
+                                    </div>
+                                    <div class="address-full-fields">
+                                        <div class="address-field">
+                                            <label class>
+                                                Address:
+                                            </label>
+                                            <input type="text" placeholder="e.g str.Banulescu Bodoni 12" class="form-name" autocomplete="address" value={address} onChange={e => setAddress(e.target.value)}/>
+                                        </div>
+                                        <div class="city-field">
+                                            <label class>
+                                                City:
+                                            </label>
+                                            <select class="form-name" value={city} onChange={e => setCity(e.target.value)}>
+                                                <option value="">Select a city</option>
+                                                {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                                            </select>
+                                        </div>
+                                        <div class="nationality-field">
+                                            <label class>
+                                                Nationality:
+                                            </label>
+                                            <input type="text" placeholder="e.g Moldovan" class="form-name" autocomplete="nationality" value={nationality} onChange={e => setNationality(e.target.value)}/>
+                                        </div>
+                                    </div>
+                                    <div class="coming-from-fields">
+                                        <div class="date-birth-field">
+                                            Date of Birth:<br />
+                                            <select value={day} onChange={e => setDay(e.target.value)}>
+                                                <option value="">Day</option>
+                                                {days.map(d => <option key={d} value={d}>{d}</option>)}
+                                            </select>
+                                            <select value={month} onChange={e => setMonth(e.target.value)}>
+                                                <option value="">Month</option>
+                                                {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                </select>
+                                            <select value={year} onChange={e => setYear(e.target.value)}>
+                                                <option value="">Year</option>
+                                                {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                            </select><br />
+                                        </div>
+                                        <div class="sex-status-field">
+                                            Sex:<br />
+                                            <select value={sex} onChange={e => setSex(e.target.value)}>
+                                                <option value="">Select gender</option>
+                                                <option value="MALE">Male</option>
+                                                <option value="FEMALE">Female</option>
+                                            </select><br />
                                         </div>
                                     </div>
                                 </form>
@@ -171,7 +223,7 @@ export default PersonForm;
 <input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} style={{ height: "40px", padding: "10px" }} />
 </div>*/
 
-/*Date of Birth:<br />
+/*                                  Date of Birth:<br />
                                     <select value={day} onChange={e => setDay(e.target.value)}>
                                         <option value="">Day</option>
                                         {days.map(d => <option key={d} value={d}>{d}</option>)}
@@ -185,11 +237,16 @@ export default PersonForm;
                                         {years.map(y => <option key={y} value={y}>{y}</option>)}
                                     </select><br />
 
-                                    City:<br />
-                                    <select value={city} onChange={e => setCity(e.target.value)}>
-                                        <option value="">Select a city</option>
-                                        {cities.map(c => <option key={c} value={c}>{c}</option>)}
-                                    </select><br />
+                                        <div class="civil-status-field">
+                                            Civil Status:<br />
+                                                <select value={civilStatus} onChange={e => setCivilStatus(e.target.value)}>
+                                                <option value="">Select your status</option>
+                                                <option value="UNMARRIED">UNMARRIED</option>
+                                                <option value="MARRIED">MARRIED</option>
+                                                <option value="DIVORCED">DIVORCED</option>
+                                                <option value="WIDOWED">WIDOWED</option>
+                                            </select><br />
+                                        </div>  
 
                                     Sex:<br />
                                     <select value={sex} onChange={e => setSex(e.target.value)}>

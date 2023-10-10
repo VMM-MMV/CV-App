@@ -154,35 +154,82 @@ h1, h2 {
   max-width: 850px;
 }
 
-.name-full-fields {
+.name-full-fields,
+.address-full-fields {
   display: flex;
-  justify-content: space-between; 
-  align-items: center;
+  flex-direction: row;  
   width: 100%;
   margin-bottom: 10px;  
 }
 
 .first-name-field,
-.last-name-field {
+.last-name-field,
+.address-field,
+.city-field,
+.nationality-field {
   flex-grow: 1;
-  margin-right: 20px;  
+  margin-right: 10px;  
+  margin-bottom: 5px;
 }
 
-.first-name-field label,
-.last-name-field label {
+.name-full-fields label,
+.address-full-fields label,
+.coming-from-fields label {
+  display: inline-block;
   color: #002d6b;
   flex-grow: 1;
 }
 
-.name-full-fields .form-name {
+.name-full-fields .form-name,
+.address-full-fields .form-name,
+.coming-from-fields .form-name {
   display: block;
   padding-bottom: 8px;
   color: #002d6b;
   width: 100%; 
   padding: 12px 16px;
-  height: 50px !important;
   font-size: 16px;
   border: 2px solid #eaeaea;
   border-radius: 3px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
+
+.address-full-fields .city-field select {
+  display: block;
+  padding: 12.5px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 2px solid #eaeaea;
+  border-radius: 3px;
+  margin-top: 5px;
+  margin-right: 0;
+}
+
+.address-field .form-name {
+  margin-right: 50px;
+}
+.address-full-fields .address-field {
+  flex-grow: 2;
+}
+
+.address-full-fields .city-field {
+  flex-grow: 2;
+  margin-right: 10px;
+}
+
+.address-full-fields .city-field label {
+  margin-right: 0;
+}
+
+.address-full-fields .nationality-field {
+  margin-right: 10px;
+  flex-grow: 2;
+} 
+
+.city-field {
+  margin-right: 10px;
+  margin-bottom: 5px;
+  flex-grow: 1;
+}
+
+
