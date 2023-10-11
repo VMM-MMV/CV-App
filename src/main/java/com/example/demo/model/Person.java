@@ -16,6 +16,15 @@ public class Person {
     public enum Kids {
         YES, NO
     }
+    public enum CivilStatus{
+        Unmarried, Married, Divorced, Widowed
+    }
+    public enum LevelSkills{
+        Beginner, Moderate, Skillful, Experienced, Expert
+    }
+    public enum LevelLanguage{
+        A1, A2, B1, B2, C1, C2, nativeSpeaker, workingKnowledge
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
     @SequenceGenerator(name = "person_id_seq", sequenceName = "person_id_seq", allocationSize = 1, initialValue = 1000)
@@ -40,5 +49,24 @@ public class Person {
     private String phoneNumber;
 
     private String countryCode;
+    private String address;
+    private String nationality;
+    @Enumerated(EnumType.STRING)
+    private CivilStatus civilStatus;
+    private LocalDate startDateStudy;
+    private LocalDate endDateStudy;
+    private String titleJob;
+    private String cityJob;
+    private String employer;
+    private LocalDate startDateJob;
+    private LocalDate endDateJob;
+    private String descriptionJob;
+    private String skills;
+    private LevelSkills levelSkills;
+    private String language;
+    private LevelLanguage levelLanguage;
+    private String hobby;
+    private String achievements;
+
 
 }
