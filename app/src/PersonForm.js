@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
 
 function PersonForm() {
     const [name, setName] = useState('');
@@ -170,32 +169,40 @@ function PersonForm() {
                                     <div className="coming-from-fields">
                                         <div className="date-birth-sex-field">
                                             <div className="date-birth-field">
+                                                <div className="date-selector">
                                                 <label> 
                                                     Date of Birth:
                                                 </label>
-                                                <select value={day} className="form-name" onChange={e => setDay(e.target.value)}>
-                                                    <option value="">Day</option>
-                                                    {days.map(d => <option key={d} value={d}>{d}</option>)}
-                                                </select>
-                                                <select value={month} className="form-name" onChange={e => setMonth(e.target.value)}>
-                                                    <option value="">Month</option>
-                                                    {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                    <select value={day} className="form-name" onChange={e => setDay(e.target.value)}>
+                                                        <option value="">Day</option>
+                                                        {days.map(d => <option key={d} value={d}>{d}</option>)}
                                                     </select>
+                                                </div>
+                                                <div className="month-selector">
+                                                <label></label>
+                                                    <select value={month} className="form-name" onChange={e => setMonth(e.target.value)}>
+                                                        <option value="">Month</option>
+                                                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                    </select>
+                                                </div>
+                                                <div className="year-selector">
+                                                <label></label>
                                                 <select value={year} className="form-name" onChange={e => setYear(e.target.value)}>
                                                     <option value="">Year</option>
                                                     {years.map(y => <option key={y} value={y}>{y}</option>)}
                                                 </select>
+                                                </div>  
                                             </div>
-                                            <div className="sex-status-field">
-                                                <label>
-                                                    Sex:
-                                                </label>
-                                                <select value={sex} className="form-name" onChange={e => setSex(e.target.value)}>
-                                                    <option value="">Select gender</option>
-                                                    <option value="MALE">Male</option>
-                                                    <option value="FEMALE">Female</option>
-                                                </select>
-                                            </div>
+                                        </div>
+                                        <div className="sex-status-field">
+                                            <label>
+                                                Sex:
+                                            </label>
+                                            <select value={sex} className="form-name" onChange={e => setSex(e.target.value)}>
+                                                <option value="">Select gender</option>
+                                                <option value="MALE">Male</option>
+                                                <option value="FEMALE">Female</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div className="family-status-full-fields">
@@ -224,23 +231,28 @@ function PersonForm() {
                                     </div>
                                     <div className="email-number-full-fields">
                                         <div className="email-address-field">
-                                            <label>
-                                                Email:
-                                            </label>
+                                            <label>Email:</label>
                                             <input type="email" placeholder="Enter email" className="form-name" value={email} onChange={e => setEmail(e.target.value)} />
                                         </div>
                                         <div className="phone-number-field">
+                                            <div className="phone-select-container">
                                             <label>
                                                 Phone Number:
                                             </label>
-                                            <select className="form-name" value={countryCode} onChange={e => setCountryCode(e.target.value)}>
+                                                <select className="form-name" value={countryCode} onChange={e => setCountryCode(e.target.value)}>
                                                 <option value="">Select Country</option>
-                                                {countries.map(country => (<option key={country.code} value={country.code}> {country.name} ({country.code})
-                                                </option>
+                                                {countries.map(country => (
+                                                    <option key={country.code} value={country.code}>
+                                                    {country.name} ({country.code})
+                                                    </option>
                                                 ))}
-                                            </select>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="phone-field">
                                             <input type="text" placeholder="Phone Number" className="form-name" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
                                         </div>
+                                        
                                     </div>
                                 </form>
                             </div>
@@ -255,30 +267,3 @@ function PersonForm() {
 export default PersonForm;
 
 
-/*
-</div>
-<div class="email-field">
-<input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} style={{ height: "40px", padding: "10px" }} />
-</div>*/
-
-/*                                 
-
-                                        <div class="civil-status-field">
-                                            Civil Status:<br />
-                                                <select value={civilStatus} onChange={e => setCivilStatus(e.target.value)}>
-                                                <option value="">Select your status</option>
-                                                <option value="UNMARRIED">UNMARRIED</option>
-                                                <option value="MARRIED">MARRIED</option>
-                                                <option value="DIVORCED">DIVORCED</option>
-                                                <option value="WIDOWED">WIDOWED</option>
-                                            </select><br />
-                                        </div>  
-
-                                    Has Kids:<br />
-                                    <select value={hasKids} onChange={e => setHasKids(e.target.value)}>
-                                        <option value="">Select Option</option>
-                                        <option value="YES">Yes</option>
-                                        <option value="NO">No</option>
-                                    </select><br />
-
-                                    <button type="submit">Add</button>*/

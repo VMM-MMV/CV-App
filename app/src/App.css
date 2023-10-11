@@ -170,10 +170,11 @@ h1, h2 {
 .address-field,
 .city-field,
 .nationality-field,
-.date-birth-field,
 .sex-status-field,
+.date-birth-field,
 .email-address-field,
 .phone-number-field,
+.phone-field,
 .civil-status-field,
 .kids-status-field {
   flex-grow: 1;
@@ -211,19 +212,35 @@ h1, h2 {
   margin-right: 80px;
 }
 
-.coming-from-fields .date-birth-field,
-.coming-from-fields .sex-status-field {
+.coming-from-fields .date-birth-field {
   width: 100%;
+  display: flex;
 }
 
 .date-birth-sex-field {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-grow: 1;
 }
 
-.date-birth-field select {
-  flex-grow: 1; 
-  margin-right: 5px;
+.date-selector, .month-selector, .year-selector {
+  flex-grow: 1;
+  margin-right: 10px;
 }
+
+.phone-field {
+  margin-top: 19px;
+}
+
+.phone-field input[type=text] {
+  height: 48px;
+}
+
+.phone-field {
+  width: 10%;
+}
+
+.phone-number-field {
+  width: 15%;
+}
+
+
 
