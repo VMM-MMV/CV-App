@@ -155,7 +155,10 @@ h1, h2 {
 }
 
 .name-full-fields,
-.address-full-fields {
+.address-full-fields,
+.coming-from-fields,
+.email-number-full-fields,
+.family-status-full-fields {
   display: flex;
   flex-direction: row;  
   width: 100%;
@@ -166,7 +169,13 @@ h1, h2 {
 .last-name-field,
 .address-field,
 .city-field,
-.nationality-field {
+.nationality-field,
+.date-birth-field,
+.sex-status-field,
+.email-address-field,
+.phone-number-field,
+.civil-status-field,
+.kids-status-field {
   flex-grow: 1;
   margin-right: 10px;  
   margin-bottom: 5px;
@@ -174,7 +183,9 @@ h1, h2 {
 
 .name-full-fields label,
 .address-full-fields label,
-.coming-from-fields label {
+.coming-from-fields label,
+.email-number-full-fields label,
+.family-status-full-fields label{
   display: inline-block;
   color: #002d6b;
   flex-grow: 1;
@@ -182,7 +193,9 @@ h1, h2 {
 
 .name-full-fields .form-name,
 .address-full-fields .form-name,
-.coming-from-fields .form-name {
+.coming-from-fields .form-name,
+.email-number-full-fields .form-name,
+.family-status-full-fields .form-name {
   display: block;
   padding-bottom: 8px;
   color: #002d6b;
@@ -194,42 +207,23 @@ h1, h2 {
   margin-top: 5px;
 }
 
-.address-full-fields .city-field select {
-  display: block;
-  padding: 12.5px 16px;
-  font-size: 14px;
-  font-family: inherit;
-  border: 2px solid #eaeaea;
-  border-radius: 3px;
-  margin-top: 5px;
-  margin-right: 0;
-}
-
 .address-field .form-name {
-  margin-right: 50px;
-}
-.address-full-fields .address-field {
-  flex-grow: 2;
+  margin-right: 80px;
 }
 
-.address-full-fields .city-field {
-  flex-grow: 2;
-  margin-right: 10px;
+.coming-from-fields .date-birth-field,
+.coming-from-fields .sex-status-field {
+  width: 100%;
 }
 
-.address-full-fields .city-field label {
-  margin-right: 0;
+.date-birth-sex-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.address-full-fields .nationality-field {
-  margin-right: 10px;
-  flex-grow: 2;
-} 
-
-.city-field {
-  margin-right: 10px;
-  margin-bottom: 5px;
-  flex-grow: 1;
+.date-birth-field select {
+  flex-grow: 1; 
+  margin-right: 5px;
 }
-
 
