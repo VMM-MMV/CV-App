@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @SecondaryTable(name = "job_history", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 @SecondaryTable(name = "skills_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 @SecondaryTable(name = "language_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
+@SecondaryTable(name = "phone_number", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 public class Person {
     public enum Sex {
         MALE, FEMALE
@@ -49,10 +50,10 @@ public class Person {
 
     @Column(unique = true)
     private String email;
-
-    private String phoneNumber;
-
+    @Column(table = "phone_number")
     private String countryCode;
+    @Column(table = "phone_number")
+    private String phoneNumber;
     private String address;
     private String nationality;
     @Enumerated(EnumType.STRING)
