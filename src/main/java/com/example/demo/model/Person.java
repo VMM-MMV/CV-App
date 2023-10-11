@@ -7,7 +7,10 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "person")
+@Table(name = "personal_info")
+@SecondaryTable(name = "education_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
+@SecondaryTable(name = "job_history", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
+
 public class Person {
     public enum Sex {
         MALE, FEMALE
@@ -53,7 +56,15 @@ public class Person {
     private String nationality;
     @Enumerated(EnumType.STRING)
     private CivilStatus civilStatus;
+    @Column(table = "education_info")
+    private String education;
+    @Column(table = "education_info")
+    private String school;
+    @Column(table = "education_info")
+    private String citySchool;
+    @Column(table = "education_info")
     private LocalDate startDateStudy;
+    @Column(table = "education_info")
     private LocalDate endDateStudy;
     private String titleJob;
     private String cityJob;
