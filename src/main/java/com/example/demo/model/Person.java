@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table(name = "personal_info")
 @SecondaryTable(name = "education_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 @SecondaryTable(name = "job_history", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
-
+@SecondaryTable(name = "skills_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 public class Person {
     public enum Sex {
         MALE, FEMALE
@@ -66,19 +66,21 @@ public class Person {
     private LocalDate startDateStudy;
     @Column(table = "education_info")
     private LocalDate endDateStudy;
-    @Column(table = "education_info")
+    @Column(table = "job_history")
     private String titleJob;
-    @Column(table = "education_info")
+    @Column(table = "job_history")
     private String employer;
-    @Column(table = "education_info")
+    @Column(table = "job_history")
     private String cityJob;
-    @Column(table = "education_info")
+    @Column(table = "job_history")
     private LocalDate startDateJob;
-    @Column(table = "education_info")
+    @Column(table = "job_history")
     private LocalDate endDateJob;
-    @Column(table = "education_info")
+    @Column(table = "job_history")
     private String descriptionJob;
+    @Column(table = "skills_info")
     private String skills;
+    @Column(table = "skills_info")
     private LevelSkills levelSkills;
     private String language;
     private LevelLanguage levelLanguage;
