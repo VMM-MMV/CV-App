@@ -66,11 +66,17 @@ public class Person {
     private LocalDate startDateStudy;
     @Column(table = "education_info")
     private LocalDate endDateStudy;
+    @Column(table = "education_info")
     private String titleJob;
-    private String cityJob;
+    @Column(table = "education_info")
     private String employer;
+    @Column(table = "education_info")
+    private String cityJob;
+    @Column(table = "education_info")
     private LocalDate startDateJob;
+    @Column(table = "education_info")
     private LocalDate endDateJob;
+    @Column(table = "education_info")
     private String descriptionJob;
     private String skills;
     private LevelSkills levelSkills;
