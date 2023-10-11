@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @SecondaryTable(name = "education_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 @SecondaryTable(name = "job_history", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 @SecondaryTable(name = "skills_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
+@SecondaryTable(name = "language_info", pkJoinColumns = @PrimaryKeyJoinColumn(name = "person_id"))
 public class Person {
     public enum Sex {
         MALE, FEMALE
@@ -82,10 +83,10 @@ public class Person {
     private String skills;
     @Column(table = "skills_info")
     private LevelSkills levelSkills;
+    @Column(table = "language_info")
     private String language;
+    @Column(table = "language_info")
     private LevelLanguage levelLanguage;
     private String hobby;
     private String achievements;
-
-
 }
