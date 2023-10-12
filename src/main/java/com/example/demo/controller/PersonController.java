@@ -32,12 +32,16 @@ public class PersonController {
     @DeleteMapping("/deletePerson/{email}")
     public ResponseEntity<String> deletePerson(@PathVariable String email) {
         Person person = repo.findPersonByEmail(email);
-        if (person == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person not found");
-        }
+        if (person == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person not found");
         repo.deletePersonByEmail(person);
         return ResponseEntity.ok("Person deleted successfully");
     }
-
+    @PutMapping("/updatePerson/{email}")
+    public ResponseEntity<String> updatePersonByEmail(@PathVariable String email, @RequestBody Person updatedPerson) {
+        Person optionalPerson = repo.findPersonByEmail(email);
+        if (optionalPerson == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person not found");
+        repo.updatePerson(optionalPerson, updatedPerson);
+        return ResponseEntity.ok("Person updated successfully");
+    }
 }
 
