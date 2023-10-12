@@ -252,13 +252,16 @@ function PersonForm() {
                                         <div className="phone-field">
                                             <input type="text" placeholder="Phone Number" className="form-name" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
                                         </div>
-                                        
                                     </div>
                                 </form>
                             </div>
+                            <div className="button-submit">
+                                <button class="button-field" type="button">Back</button>
+                                <button class="button-field" type="button">Next page</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
     );

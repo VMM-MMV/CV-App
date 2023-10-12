@@ -158,10 +158,10 @@ h1, h2 {
 .address-full-fields,
 .coming-from-fields,
 .email-number-full-fields,
-.family-status-full-fields {
+.family-status-full-fields  {
   display: flex;
   flex-direction: row;  
-  width: 100%;
+  width: 90%;
   margin-bottom: 10px;  
 }
 
@@ -209,7 +209,7 @@ h1, h2 {
 }
 
 .address-field .form-name {
-  margin-right: 80px;
+  margin-right: 177px;
 }
 
 .coming-from-fields .date-birth-field {
@@ -235,12 +235,41 @@ h1, h2 {
 }
 
 .phone-field {
-  width: 10%;
+  width: 5%;
 }
 
 .phone-number-field {
-  width: 15%;
+  width: 2%;
 }
 
+.sex-status-field {
+  width: 315px;
+}
+.civil-status-field {
+  width: 155px;
+}
+.button-submit {
+  margin-top: 7vh;
+  margin-bottom: 15px;
+  margin-right: 85px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
 
+.button-field {
+  border: none;
+  width: 23%;
+  line-height: 2.5;
+  padding: 0 20px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #fff;
+  border-radius: 25px;
+  background-color: #002d6b;
+  background-image: linear-gradient(to top left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0));
+  box-shadow:
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+}
 
