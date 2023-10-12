@@ -5,8 +5,10 @@ import com.example.demo.repo.PersonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class PersonService {
@@ -23,5 +25,24 @@ public class PersonService {
     }
     public void deletePersonByEmail(Person person) {
         repo.delete(person);
+    }
+    public void updatePerson(Person optionalPerson, Person updatedPerson) {
+        Long i = optionalPerson.getId();
+        if (updatedPerson != null) {
+            Field[] fields = Person.class.getDeclaredFields();
+            for (Field field : fields) {
+                try {
+                    field.setAccessible(true);
+                    Object value = field.get(updatedPerson);
+                    if (value != null) {
+                        field.set(optionalPerson, value);
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            optionalPerson.setId(i);
+            repo.save(optionalPerson);
+        }
     }
 }
