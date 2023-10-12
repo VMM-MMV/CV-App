@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import PersonForm from './PersonForm';
 import Education from './Education';
 import Experience from './Experience';
+import Skills from './Skills';
+import Languages from './Languages';
 
 function App() {
   const [currentForm, setCurrentForm] = useState('person'); 
@@ -11,11 +13,17 @@ function App() {
   const handleNextClick = () => {
       switch (currentForm) {
           case 'person':
-              setCurrentForm('education');
-              break;
+            setCurrentForm('education');
+            break;
           case 'education':
-              setCurrentForm('experience');
-              break;
+            setCurrentForm('experience');
+            break;
+          case 'experience':
+            setCurrentForm('skills');
+            break;
+          case 'skills':
+            setCurrentForm('languages');
+            break;
           default:
               break;
       }
@@ -24,11 +32,17 @@ function App() {
   const handleBackClick = () => {
       switch (currentForm) {
           case 'education':
-              setCurrentForm('person');
-              break;
+            setCurrentForm('person');
+            break;
           case 'experience':
-              setCurrentForm('education');
-              break;
+            setCurrentForm('education');
+            break;
+          case 'skills':
+            setCurrentForm('experience');
+            break;
+          case 'languages':
+            setCurrentForm('skills');
+            break;
           default:
               break;
       }
@@ -41,6 +55,8 @@ function App() {
         {currentForm === 'person' && <PersonForm />}
         {currentForm === 'education' && <Education />}
         {currentForm === 'experience' && <Experience />}
+        {currentForm === 'skills' && <Skills />}
+        {currentForm === 'languages' && <Languages />}
         <div className="button-submit">
           <div className="button-row">
           <button onClick={handleBackClick} disabled={currentForm === 'person'} className="button-field" type="button">

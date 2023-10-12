@@ -155,7 +155,8 @@ h1, h2 {
 }
 
 .form,
-.form2 {
+.form2,
+.form3 {
   width: 750px;
 }
 
@@ -166,11 +167,23 @@ h1, h2 {
 .family-status-full-fields,
 .degree-city-full-fields,
 .school-full-fields,
-.study-fields  {
+.study-fields,
+.job-city-full-fields,
+.employer-full-fields {
   display: flex;
   flex-direction: row;  
   width: 90%;
   margin-bottom: 10px;  
+}
+
+.job-description-fields {
+  display: flex;
+  flex-direction: row;  
+  width: 90%;
+  margin-bottom: 10px;  
+  flex-wrap: wrap;
+  font: bold 1rem sans-serif;
+  
 }
 
 .first-name-field,
@@ -188,7 +201,10 @@ h1, h2 {
 .degree-field,
 .city-field,
 .school-field,
-.date-study-field {
+.date-study-field,
+.job-field,
+.employer-field,
+.job-box-field {
   flex-grow: 1;
   margin-right: 10px;  
   margin-bottom: 5px;
@@ -201,7 +217,10 @@ h1, h2 {
 .family-status-full-fields label,
 .degree-city-full-fields label,
 .school-full-fields label,
-.study-fields label {
+.study-fields label,
+.job-city-full-fields label,
+.employer-full-fields label,
+.job-description-fields label {
   display: inline-block;
   color: #002d6b;
   flex-grow: 1;
@@ -214,7 +233,9 @@ h1, h2 {
 .family-status-full-fields .form-name,
 .degree-city-full-fields .form-name,
 .school-full-fields .form-name,
-.study-fields .form-name {
+.study-fields .form-name,
+.job-city-full-fields .form-name,
+.employer-full-fields .form-name {
   display: block;
   padding-bottom: 8px;
   color: #002d6b;
@@ -224,6 +245,14 @@ h1, h2 {
   border: 2px solid #eaeaea;
   border-radius: 3px;
   margin-top: 5px;
+}
+
+.job-description-fields .form-name {
+  color: #002d6b;
+  width: 100%; 
+  margin-top: 5px;
+  word-wrap: break-word;
+  height: auto;
 }
 
 .address-field .form-name {

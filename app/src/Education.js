@@ -10,7 +10,6 @@ function Education() {
     const [monthEnd, setMonthEnd] = useState('');
     const [yearEnd, setYearEnd] = useState('');
 
-
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
@@ -24,9 +23,9 @@ function Education() {
         }
         
         try {
-            const startDateJob = `${yearStart}-${String(monthStart).padStart(2, '0')}`;
-            const endDateJob = `${yearEnd}-${String(monthEnd).padStart(2, '0')}`;
-            await axios.post('http://localhost:8080/addPerson', {education, citySchool, school, startDateJob, endDateJob});
+            const startDateStudy = `${yearStart}-${String(monthStart).padStart(2, '0')}`;
+            const endDateStudy = `${yearEnd}-${String(monthEnd).padStart(2, '0')}`;
+            await axios.post('http://localhost:8080/addPerson', {education, citySchool, school, startDateStudy, endDateStudy});
             alert('Person added successfully!');
             setEducation('');
             setCitySchool('');
@@ -59,7 +58,7 @@ function Education() {
                                         </div>
                                         <div className="city-field">
                                             <label>
-                                                City/Town
+                                                City/Town:
                                             </label>
                                             <input type="text" placeholder="e.g Chisinau" className="form-name" autoComplete="given-city" value={citySchool} onChange={e => setCitySchool(e.target.value)}/>
                                         </div>
