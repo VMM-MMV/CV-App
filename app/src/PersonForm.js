@@ -135,9 +135,9 @@ function PersonForm() {
                                     <label>
                                         First Name:
                                     </label>
-                                    <input type="text" placeholder="e.g Michael" className="form-name" autoComplete="given-name" value={name} onChange={e => setName(e.target.value)}/>
+                                    <input type="text" placeholder="e.g Michael" className="form-name fixed-width" autoComplete="given-name" value={name} onChange={e => setName(e.target.value)}/>
                                 </div>
-                                <div className="last-name-field">
+                                <div className="last-name-field" name="enter-last-name">
                                     <label>
                                         Last Name:
                                     </label>

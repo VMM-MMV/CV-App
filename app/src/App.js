@@ -38,18 +38,20 @@ function App() {
   return (
     <div className="App">
       <div className="opacity">
-          {currentForm === 'person' && <PersonForm />}
-          {currentForm === 'education' && <Education />}
-          {currentForm === 'experience' && <Experience />}
-          <div className="button-submit">
-            <button onClick={handleBackClick} disabled={currentForm === 'person'} className="button-field" type="button">
-              Back
-            </button>
-            <button onClick={handleNextClick} disabled={currentForm === 'experience'} className="button-field" type="button">
-              Next page
-            </button>
+        {currentForm === 'person' && <PersonForm />}
+        {currentForm === 'education' && <Education />}
+        {currentForm === 'experience' && <Experience />}
+        <div className="button-submit">
+          <div className="button-row">
+          <button onClick={handleBackClick} disabled={currentForm === 'person'} className="button-field" type="button">
+            Back
+          </button>
+          <button onClick={handleNextClick} disabled={currentForm === 'experience'} className="button-field" type="button">
+            Next page
+          </button>
           </div>
-          <Navbar />
+        </div>
+        <Navbar />
       </div>
     </div>
   );

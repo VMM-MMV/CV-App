@@ -154,11 +154,19 @@ h1, h2 {
   max-width: 850px;
 }
 
+.form,
+.form2 {
+  width: 750px;
+}
+
 .name-full-fields,
 .address-full-fields,
 .coming-from-fields,
 .email-number-full-fields,
-.family-status-full-fields  {
+.family-status-full-fields,
+.degree-city-full-fields,
+.school-full-fields,
+.study-fields  {
   display: flex;
   flex-direction: row;  
   width: 90%;
@@ -176,7 +184,11 @@ h1, h2 {
 .phone-number-field,
 .phone-field,
 .civil-status-field,
-.kids-status-field {
+.kids-status-field,
+.degree-field,
+.city-field,
+.school-field,
+.date-study-field {
   flex-grow: 1;
   margin-right: 10px;  
   margin-bottom: 5px;
@@ -186,7 +198,10 @@ h1, h2 {
 .address-full-fields label,
 .coming-from-fields label,
 .email-number-full-fields label,
-.family-status-full-fields label{
+.family-status-full-fields label,
+.degree-city-full-fields label,
+.school-full-fields label,
+.study-fields label {
   display: inline-block;
   color: #002d6b;
   flex-grow: 1;
@@ -196,7 +211,10 @@ h1, h2 {
 .address-full-fields .form-name,
 .coming-from-fields .form-name,
 .email-number-full-fields .form-name,
-.family-status-full-fields .form-name {
+.family-status-full-fields .form-name,
+.degree-city-full-fields .form-name,
+.school-full-fields .form-name,
+.study-fields .form-name {
   display: block;
   padding-bottom: 8px;
   color: #002d6b;
@@ -212,12 +230,14 @@ h1, h2 {
   margin-right: 177px;
 }
 
-.coming-from-fields .date-birth-field {
+.coming-from-fields .date-birth-field,
+.study-fields .date-study-field {
   width: 100%;
   display: flex;
 }
 
-.date-birth-sex-field {
+.date-birth-sex-field,
+.date-study-full-field {
   flex-grow: 1;
 }
 
@@ -245,22 +265,29 @@ h1, h2 {
 .sex-status-field {
   width: 315px;
 }
+
 .civil-status-field {
   width: 155px;
 }
+
 .button-submit {
   margin-top: 7vh;
   margin-bottom: 15px;
   margin-right: 85px;
   position: relative;
   display: flex;
+  justify-content: center;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 
 .button-field {
   cursor: pointer;
   border: none;
-  width: 23%;
   line-height: 2.5;
   padding: 0 20px;
   font-size: 1.2rem;
