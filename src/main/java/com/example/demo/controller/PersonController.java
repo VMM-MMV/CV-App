@@ -25,10 +25,12 @@ public class PersonController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/displayPerson")
     public List<Person> getAllPersons(){
         return repo.getAllPersons();
     }
+
     @DeleteMapping("/deletePerson/{email}")
     public ResponseEntity<String> deletePerson(@PathVariable String email) {
         Person person = repo.findPersonByEmail(email);
@@ -36,11 +38,12 @@ public class PersonController {
         repo.deletePersonByEmail(person);
         return ResponseEntity.ok("Person deleted successfully");
     }
+
     @PutMapping("/updatePerson/{email}")
     public ResponseEntity<String> updatePersonByEmail(@PathVariable String email, @RequestBody Person updatedPerson) {
-        Person optionalPerson = repo.findPersonByEmail(email);
-        if (optionalPerson == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person not found");
-        repo.updatePerson(optionalPerson, updatedPerson);
+        Person previousPerson = repo.findPersonByEmail(email);
+        if (previousPerson == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person not found");
+        repo.updatePerson(previousPerson, updatedPerson);
         return ResponseEntity.ok("Person updated successfully");
     }
 }
