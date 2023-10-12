@@ -240,7 +240,7 @@ function PersonForm() {
                                                 Phone Number:
                                             </label>
                                                 <select className="form-name" value={countryCode} onChange={e => setCountryCode(e.target.value)}>
-                                                <option value="">Select Country</option>
+                                                <option value="">Select Code</option>
                                                 {countries.map(country => (
                                                     <option key={country.code} value={country.code}>
                                                     {country.name} ({country.code})
