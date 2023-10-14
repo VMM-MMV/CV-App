@@ -158,7 +158,8 @@ h1, h2 {
 .form2,
 .form3,
 .form4,
-.form5 {
+.form5,
+.form6 {
   width: 750px;
 }
 
@@ -174,7 +175,8 @@ h1, h2 {
 .employer-full-fields,
 .skills-full-fields,
 .level-skills-full-fields,
-.language-full-fields {
+.language-full-fields,
+.hobby-full-fields {
   display: flex;
   flex-direction: row;  
   width: 90%;
@@ -211,7 +213,8 @@ h1, h2 {
 .skills-field,
 .level-skills-field,
 .language-field,
-.level-language-field {
+.level-language-field,
+.hobby-field {
   flex-grow: 1;
   margin-right: 10px;  
   margin-bottom: 5px;
@@ -230,7 +233,8 @@ h1, h2 {
 .job-description-fields label,
 .skills-full-fields label,
 .level-skills-full-fields label,
-.language-full-fields label {
+.language-full-fields label,
+.hobby-full-fields label {
   display: inline-block;
   color: #002d6b;
   flex-grow: 1;
@@ -247,7 +251,8 @@ h1, h2 {
 .job-city-full-fields .form-name,
 .employer-full-fields .form-name,
 .skills-full-fields .form-name,
-.language-full-fields .form-name {
+.language-full-fields .form-name,
+.hobby-full-fields .form-name {
   display: block;
   padding-bottom: 8px;
   color: #002d6b;

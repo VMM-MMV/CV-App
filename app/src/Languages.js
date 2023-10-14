@@ -45,7 +45,7 @@ function Languages() {
                                                 Level:
                                             </label>
                                             <select className="form-name" value={levelLanguage} onChange={e => setLevelLanguage(e.target.value)}>
-                                                <option value="">Select status</option>
+                                                <option value="">Select language level</option>
                                                 <option value="A1">A1</option>
                                                 <option value="A2">A2</option>
                                                 <option value="B1">B1</option>
