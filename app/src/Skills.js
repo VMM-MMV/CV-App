@@ -3,21 +3,40 @@ import axios from 'axios';
 
 function Skills() {
     const [skills, setSkills] = useState('');
-    const [levelSkills, setLevelSkills] = useState('');  
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const [rangeValue, setRangeValue] = useState('0');  
 
-        if (!skills || !levelSkills) {
+    const handleRangeChange = (event) => {
+        const newValue = parseInt(event.target.value, 10);
+        setRangeValue(newValue);
+    };
+
+    let text = 'Make a choice';
+    if (rangeValue === 0) {
+        text = 'Beginner';
+    } else if (rangeValue === 25) {
+        text = 'Moderate';
+    } else if (rangeValue === 50) {
+        text = 'Skillful'
+    } else if (rangeValue === 75) {
+        text ='Experienced'
+    } else if (rangeValue === 100) {
+        text = 'Expert';
+    }
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+
+        if (!skills || !rangeValue) {
             alert('Please fill out all fields.');
             return;
         }
         
         try {
-            await axios.post('http://localhost:8080/addPerson', {skills, levelSkills});
+            await axios.post('http://localhost:8080/addPerson', {skills, rangeValue});
             alert('Person added successfully!');
             setSkills('');
-            setLevelSkills('');
+            setRangeValue('');
         } catch (error) {
             alert('Error adding person: ' + error);
         }
@@ -43,17 +62,22 @@ function Skills() {
                                     </div>
                                     <div className="level-skills-full-fields">
                                         <div className="level-skills-field">
-                                            <label for="levelSkill">
+                                            <label>
                                                 Level:
                                             </label>
-                                            <input type="range" id="levelSKills" min="0" max="100" list="markers" step="25" className="form-name" autoComplete="off" value={levelSkills} onChange={e => setLevelSkills(e.target.value)}/>
-                                            <datalist id="markers">
-                                                <option value="Beginner" label="Beginner"></option>
-                                                <option value="Moderate" label="Moderate"></option>
-                                                <option value="Skillful" label="Skillful"></option>
-                                                <option value="Experienced" label="Experienced"></option>
-                                                <option value="Expert" label="Expert"></option>
-                                            </datalist>
+                                            <div className="level-skills-align">
+                                                <input type="range" id="levelSKills" min="0" max="100" list="markers" step="25" className="form-name" autoComplete="off" value={rangeValue} onChange={handleRangeChange}/>
+                                                <div className="level-text-container">
+                                                    <label for="levelSkill" className="level-text-label">{text}</label>
+                                                </div>
+                                                <datalist id="markers">
+                                                    <option value="Beginner" label="Beginner"></option>
+                                                    <option value="Moderate" label="Moderate"></option>
+                                                    <option value="Skillful" label="Skillful"></option>
+                                                    <option value="Experienced" label="Experienced"></option>
+                                                    <option value="Expert" label="Expert"></option>
+                                                </datalist>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
