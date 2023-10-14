@@ -143,6 +143,7 @@ function Experience() {
                                                 className="form-name"
                                                 value={jobDescription}
                                                 onChange={setJobDescription}
+                                                placeholder="At the company I worked at several important projects..."
                                             />
                                         </div>
                                     </div>

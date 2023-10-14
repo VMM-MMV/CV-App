@@ -61,6 +61,7 @@ function Experience() {
                                                 className="form-name"
                                                 value={achievementsDescription}
                                                 onChange={setAchievementsDescription}
+                                                placeholder="A went to Hackathon with my lovely Team and had been coding all night long on the project..."
                                             />
                                         </div>
                                     </div>

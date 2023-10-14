@@ -74,15 +74,15 @@ function App() {
         {currentForm === 'languages' && <Languages />}
         {currentForm === 'hobby' && <Hobby />}
         {currentForm === 'achievements' && <Achievements />}
-        <div className="button-submit">
-          <div className="button-row">
-          <button onClick={handleBackClick} disabled={currentForm === 'person'} className="button-field" type="button">
-            Back
-          </button>
-          <button onClick={handleNextClick} disabled={currentForm === 'achievements'} className="button-field" type="button">
+        <div className={`button-submit ${currentForm === 'person' ? 'first-page' : ''}`}>
+          {currentForm !== 'person' && (
+            <button onClick={handleBackClick} className="button-field button-back" type="button">
+              Back
+            </button>
+          )}
+          <button onClick={handleNextClick} disabled={currentForm === 'achievements'} className="button-field button-next" type="button">
             Next page
           </button>
-          </div>
         </div>
         <Navbar />
       </div>

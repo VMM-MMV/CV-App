@@ -362,17 +362,11 @@ h1, h2 {
 }
 
 .button-submit {
-  margin-top: 7vh;
+  margin-top: 0;
   margin-bottom: 15px;
-  margin-right: 85px;
+  margin-left: auto;
   position: relative;
   display: flex;
-  justify-content: center;
-}
-
-.button-row {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -380,7 +374,7 @@ h1, h2 {
   cursor: pointer;
   border: none;
   line-height: 2.5;
-  padding: 0 20px;
+  padding: 0 50px;
   font-size: 1.2rem;
   text-align: center;
   color: #fff;
@@ -390,6 +384,20 @@ h1, h2 {
   box-shadow:
     inset 2px 2px 3px rgba(255, 255, 255, 0.6),
     inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.button-back {
+  margin-left: 280px;
+  margin-right: 0;
+}
+
+.button-next {
+  margin-right: 108px;
+  margin-left: 0;
+}
+
+.first-page .button-next {
+  margin-left: auto;
 }
 
 option {
