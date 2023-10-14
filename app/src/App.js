@@ -6,11 +6,13 @@ import Education from './Education';
 import Experience from './Experience';
 import Skills from './Skills';
 import Languages from './Languages';
+import Hobby from './Hobby';
 
 function App() {
   const [currentForm, setCurrentForm] = useState('person'); 
 
   const handleNextClick = () => {
+        console.log('Next button clicked in App component');
       switch (currentForm) {
           case 'person':
             setCurrentForm('education');
@@ -23,6 +25,9 @@ function App() {
             break;
           case 'skills':
             setCurrentForm('languages');
+            break;
+          case 'languages':
+              setCurrentForm('hobby');
             break;
           default:
               break;
@@ -43,6 +48,9 @@ function App() {
           case 'languages':
             setCurrentForm('skills');
             break;
+          case 'hobby':
+            setCurrentForm('languages');
+            break;
           default:
               break;
       }
@@ -57,12 +65,13 @@ function App() {
         {currentForm === 'experience' && <Experience />}
         {currentForm === 'skills' && <Skills />}
         {currentForm === 'languages' && <Languages />}
+        {currentForm === 'hobby' && <Hobby />}
         <div className="button-submit">
           <div className="button-row">
           <button onClick={handleBackClick} disabled={currentForm === 'person'} className="button-field" type="button">
             Back
           </button>
-          <button onClick={handleNextClick} disabled={currentForm === 'experience'} className="button-field" type="button">
+          <button onClick={handleNextClick} disabled={currentForm === 'hobby'} className="button-field" type="button">
             Next page
           </button>
           </div>

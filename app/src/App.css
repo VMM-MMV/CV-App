@@ -156,7 +156,9 @@ h1, h2 {
 
 .form,
 .form2,
-.form3 {
+.form3,
+.form4,
+.form5 {
   width: 750px;
 }
 
@@ -169,7 +171,10 @@ h1, h2 {
 .school-full-fields,
 .study-fields,
 .job-city-full-fields,
-.employer-full-fields {
+.employer-full-fields,
+.skills-full-fields,
+.level-skills-full-fields,
+.language-full-fields {
   display: flex;
   flex-direction: row;  
   width: 90%;
@@ -182,8 +187,6 @@ h1, h2 {
   width: 90%;
   margin-bottom: 10px;  
   flex-wrap: wrap;
-  font: bold 1rem sans-serif;
-  
 }
 
 .first-name-field,
@@ -204,7 +207,11 @@ h1, h2 {
 .date-study-field,
 .job-field,
 .employer-field,
-.job-box-field {
+.job-box-field,
+.skills-field,
+.level-skills-field,
+.language-field,
+.level-language-field {
   flex-grow: 1;
   margin-right: 10px;  
   margin-bottom: 5px;
@@ -220,7 +227,10 @@ h1, h2 {
 .study-fields label,
 .job-city-full-fields label,
 .employer-full-fields label,
-.job-description-fields label {
+.job-description-fields label,
+.skills-full-fields label,
+.level-skills-full-fields label,
+.language-full-fields label {
   display: inline-block;
   color: #002d6b;
   flex-grow: 1;
@@ -235,7 +245,9 @@ h1, h2 {
 .school-full-fields .form-name,
 .study-fields .form-name,
 .job-city-full-fields .form-name,
-.employer-full-fields .form-name {
+.employer-full-fields .form-name,
+.skills-full-fields .form-name,
+.language-full-fields .form-name {
   display: block;
   padding-bottom: 8px;
   color: #002d6b;
@@ -247,12 +259,24 @@ h1, h2 {
   margin-top: 5px;
 }
 
+.level-skills-full-fields .form-name {
+  padding-bottom: 8px;
+  width: 100%; 
+  padding: 12px 0;
+}
+
 .job-description-fields .form-name {
+  display: block;
   color: #002d6b;
   width: 100%; 
   margin-top: 5px;
-  word-wrap: break-word;
   height: auto;
+}
+
+.ql-editor {
+  word-wrap: break-word;
+  min-height: 95px;
+  font-size: 16px;
 }
 
 .address-field .form-name {
@@ -329,4 +353,18 @@ h1, h2 {
     inset 2px 2px 3px rgba(255, 255, 255, 0.6),
     inset -2px -2px 3px rgba(0, 0, 0, 0.6);
 }
+
+datalist {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  writing-mode: vertical-lr;
+  width: 100%;
+}
+
+option {
+  padding: 0;
+}
+
+
 
