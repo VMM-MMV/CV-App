@@ -298,7 +298,6 @@ h1, h2 {
   width: 120px;
 }
 
-
 .job-description-fields .form-name,
 .achievements-full-fields .form-name {
   display: block;
@@ -315,7 +314,7 @@ h1, h2 {
 }
 
 .address-field .form-name {
-  margin-right: 177px;
+  margin-right: 207px;
 }
 
 .coming-from-fields .date-birth-field,
@@ -343,11 +342,15 @@ h1, h2 {
 }
 
 .phone-field {
-  width: 5%;
+  width: 10%;
 }
 
 .phone-number-field {
-  width: 2%;
+  width: 0;
+}
+
+.email-address-field {
+ width: 275px;
 }
 
 .sex-status-field {
