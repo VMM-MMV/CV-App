@@ -7,6 +7,7 @@ import Experience from './Experience';
 import Skills from './Skills';
 import Languages from './Languages';
 import Hobby from './Hobby';
+import Achievements from './Achievements';
 
 function App() {
   const [currentForm, setCurrentForm] = useState('person'); 
@@ -29,6 +30,9 @@ function App() {
           case 'languages':
               setCurrentForm('hobby');
             break;
+          case 'hobby':
+              setCurrentForm('achievements');
+              break;
           default:
               break;
       }
@@ -51,6 +55,9 @@ function App() {
           case 'hobby':
             setCurrentForm('languages');
             break;
+          case 'achievements':
+              setCurrentForm('hobby');
+              break;
           default:
               break;
       }
@@ -66,12 +73,13 @@ function App() {
         {currentForm === 'skills' && <Skills />}
         {currentForm === 'languages' && <Languages />}
         {currentForm === 'hobby' && <Hobby />}
+        {currentForm === 'achievements' && <Achievements />}
         <div className="button-submit">
           <div className="button-row">
           <button onClick={handleBackClick} disabled={currentForm === 'person'} className="button-field" type="button">
             Back
           </button>
-          <button onClick={handleNextClick} disabled={currentForm === 'hobby'} className="button-field" type="button">
+          <button onClick={handleNextClick} disabled={currentForm === 'achievements'} className="button-field" type="button">
             Next page
           </button>
           </div>
