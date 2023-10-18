@@ -1,44 +1,24 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 
 
-function Experience() {
-
-    const handleBoldClick = () => {
-        setAchievementsDescription(RichUtils.toggleInlineStyle(achievementsDescription, 'BOLD'));
-      };
-    
-      const handleItalicClick = () => {
-        setAchievementsDescription(RichUtils.toggleInlineStyle(achievementsDescription, 'ITALIC'));
-      };
-    
-      const handleUnderlineClick = () => {
-        setAchievementsDescription(RichUtils.toggleInlineStyle(achievementsDescription, 'UNDERLINE'));
-      };
-    
-      const handleBulletListClick = () => {
-        setAchievementsDescription(RichUtils.toggleBlockType(achievementsDescription, 'unordered-list-item'));
-      };
+function Experience({ onDataCollected }) {
 
     const [achievementsDescription, setAchievementsDescription] = useState('');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleAddAchievements = () => {
 
-        if (!achievementsDescription) {
-            alert('Please fill out all fields.');
-            return;
-        }
-        
-        try {
-            await axios.post('http://localhost:8080/addPerson', {achievementsDescription});
-            alert('Person added successfully!');
+        if (achievementsDescription) {
+            const achievementsData = {
+                achievementsDescription
+            };
+
+            onDataCollected('achievements', achievementsData);
+
             setAchievementsDescription('');
-        } catch (error) {
-            alert('Error adding person: ' + error);
+        } else {
+            alert('Please fill out all fields.');
         }
     }
 
@@ -51,21 +31,19 @@ function Experience() {
                             <h1 className="page-title">Tell us about your achievements!</h1>
                             <h2 className="sub-title">Type all information about your most recent achievements.</h2>
                             <div className="form7">
-                                <form onSubmit={handleSubmit}>
-                                    <div className="achievements-full-fields">
-                                        <div className="achievements-field">
-                                            <label>
-                                                Achievements description:
-                                            </label>
-                                            <ReactQuill
-                                                className="form-name"
-                                                value={achievementsDescription}
-                                                onChange={setAchievementsDescription}
-                                                placeholder="A went to Hackathon with my lovely Team and had been coding all night long on the project..."
-                                            />
-                                        </div>
+                                <div className="achievements-full-fields">
+                                    <div className="achievements-field">
+                                        <label>
+                                            Achievements description:
+                                        </label>
+                                        <ReactQuill
+                                            className="form-name"
+                                            value={achievementsDescription}
+                                            onChange={setAchievementsDescription}
+                                            placeholder="A went to Hackathon with my lovely Team and had been coding all night long on the project..."
+                                        />
                                     </div>
-                                </form> 
+                                </div>
                             </div>
                          </div>
                     </div>
