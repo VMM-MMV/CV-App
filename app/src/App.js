@@ -14,7 +14,6 @@ import axios from 'axios';
 function App() {
   const steps = ['person', 'education', 'experience', 'skills', 'languages', 'hobby', 'achievements', 'finalize'];
   const [currentForm, setCurrentForm] = useState('person');
-  const [submissionStatus, setSubmissionStatus] = useState(null);
 
   const [collectedData, setCollectedData] = useState({
     person: {},
@@ -45,10 +44,8 @@ function App() {
   const handleFinalSubmit = async () => {
     try {
       await axios.post('http://localhost:8080/addPerson', collectedData);
-      setSubmissionStatus('success');
       console.log('Data submitted successfully!');
     } catch (error) {
-      setSubmissionStatus('error');
       console.error('Error submitting data: ' + error);
     }
   };
@@ -63,13 +60,13 @@ function App() {
   return (
     <div className="App">
       <div className="opacity">
-        {currentForm === 'person' && <PersonForm onDataCollected={onDataCollected}/>}
-        {currentForm === 'education' && <Education onDataCollected={onDataCollected}/>}
-        {currentForm === 'experience' && <Experience onDataCollected={onDataCollected}/>}
-        {currentForm === 'skills' && <Skills onDataCollected={onDataCollected}/>}
-        {currentForm === 'languages' && <Languages onDataCollected={onDataCollected}/>}
-        {currentForm === 'hobby' && <Hobby onDataCollected={onDataCollected}/>}
-        {currentForm === 'achievements' && <Achievements onDataCollected={onDataCollected}/>}
+        {currentForm === 'person' && <PersonForm onDataCollected={onDataCollected} data={collectedData.person}/>}
+        {currentForm === 'education' && <Education onDataCollected={onDataCollected} data={collectedData.education}/>}
+        {currentForm === 'experience' && <Experience onDataCollected={onDataCollected} data={collectedData.experience}/>}
+        {currentForm === 'skills' && <Skills onDataCollected={onDataCollected} data={collectedData.skills}/>}
+        {currentForm === 'languages' && <Languages onDataCollected={onDataCollected} data={collectedData.languages}/>}
+        {currentForm === 'hobby' && <Hobby onDataCollected={onDataCollected} data={collectedData.hobby}/>}
+        {currentForm === 'achievements' && <Achievements onDataCollected={onDataCollected} data={collectedData.achievements}/>}
         {currentForm === 'finalize' && <Finalize />}
         <div className={`button-submit ${currentForm === 'person' ? 'first-page' : ''}`}>
           {currentForm !== 'person' && (
@@ -88,12 +85,6 @@ function App() {
           )}
         </div>
         <Navbar currentForm={currentForm} steps={steps} />
-        {submissionStatus === 'success' && (
-          <div className="success-message">Data submitted successfully!</div>
-        )}
-        {submissionStatus === 'error' && (
-          <div className="error-message">Error submitting data. Please try again.</div>
-        )}
       </div>
     </div>
   );

@@ -3,9 +3,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 
-function Experience({ onDataCollected }) {
+function Experience({ onDataCollected, data }) {
 
-    const [achievementsDescription, setAchievementsDescription] = useState('');
+    const [achievementsDescription, setAchievementsDescription] = useState(data.achievementsDescription || '');
 
     const handleAddAchievements = () => {
 
@@ -31,19 +31,21 @@ function Experience({ onDataCollected }) {
                             <h1 className="page-title">Tell us about your achievements!</h1>
                             <h2 className="sub-title">Type all information about your most recent achievements.</h2>
                             <div className="form7">
-                                <div className="achievements-full-fields">
-                                    <div className="achievements-field">
-                                        <label>
-                                            Achievements description:
-                                        </label>
-                                        <ReactQuill
-                                            className="form-name"
-                                            value={achievementsDescription}
-                                            onChange={setAchievementsDescription}
-                                            placeholder="A went to Hackathon with my lovely Team and had been coding all night long on the project..."
-                                        />
+                                <form onSubmit={handleAddAchievements}>
+                                    <div className="achievements-full-fields">
+                                        <div className="achievements-field">
+                                            <label>
+                                                Achievements description:
+                                            </label>
+                                            <ReactQuill
+                                                className="form-name"
+                                                value={achievementsDescription}
+                                                onChange={setAchievementsDescription}
+                                                placeholder="A went to Hackathon with my lovely Team and had been coding all night long on the project..."
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                          </div>
                     </div>

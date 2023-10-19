@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-function Experience({ onDataCollected }) {
+function Experience({ onDataCollected, data }) {
 
-    const [titleJob, setTitleJob] = useState('');
-    const [cityJob, setCityJob] = useState('');
-    const [employer, setEmployer] = useState('');
-    const [monthJobStart, setMonthJobStart] = useState('');
-    const [yearJobStart, setYearJobStart] = useState('');
-    const [monthJobEnd, setMonthJobEnd] = useState('');
-    const [yearJobEnd, setYearJobEnd] = useState('');
+    const [titleJob, setTitleJob] = useState(data.titleJob || '');
+    const [cityJob, setCityJob] = useState(data.cityJob || '');
+    const [employer, setEmployer] = useState(data.employer || '');
+    const [monthJobStart, setMonthJobStart] = useState(data.monthJobStart || '');
+    const [yearJobStart, setYearJobStart] = useState(data.yearJobStart || '');
+    const [monthJobEnd, setMonthJobEnd] = useState(data.monthJobEnd || '');
+    const [yearJobEnd, setYearJobEnd] = useState(data.yearJobEnd || '');
 
     const [jobDescription, setJobDescription] = useState('');
 
@@ -56,79 +56,81 @@ function Experience({ onDataCollected }) {
                             <h1 className="page-title">Tell us about your experience!</h1>
                             <h2 className="sub-title">Type all necessary information about your most recent job experience.</h2>
                             <div className="form3">
-                                <div className="job-city-full-fields">
-                                    <div className="job-field">
-                                        <label>
-                                            Job Title:
-                                        </label>
-                                        <input type="text" placeholder="e.g HR Manager" className="form-name" autoComplete="given-job-title" value={titleJob} onChange={e => setTitleJob(e.target.value)}/>
-                                    </div>
-                                    <div className="city-field">
-                                        <label>
-                                            City/Town:
-                                        </label>
-                                        <input type="text" placeholder="e.g Chisinau" className="form-name" autoComplete="given-city-job" value={cityJob} onChange={e => setCityJob(e.target.value)}/>
-                                    </div>
-                                </div>
-                                <div className="employer-full-fields">
-                                    <div className="employer-field">
-                                        <label>
-                                            Employer:
-                                        </label>
-                                        <input type="text" placeholder="e.g Endava" className="form-name" autoComplete="given-employer" value={employer} onChange={e => setEmployer(e.target.value)}/>
-                                    </div>
-                                </div>
-                                <div className="study-fields">
-                                    <div className="date-study-full-field">
-                                        <div className="date-study-field">
-                                            <div className="month-selector">
+                                <form onSubmit={handleAddExperience}>
+                                    <div className="job-city-full-fields">
+                                        <div className="job-field">
                                             <label>
-                                                Start Date:
+                                                Job Title:
                                             </label>
-                                                <select value={monthJobStart} className="form-name" onChange={e => setMonthJobStart(e.target.value)}>
-                                                    <option value="">Month</option>
-                                                    {months.map(m => <option key={m} value={m}>{m}</option>)}
-                                                </select>
-                                            </div>
-                                            <div className="year-selector">
-                                            <label></label>
-                                            <select value={yearJobStart} className="form-name" onChange={e => setYearJobStart(e.target.value)}>
-                                                <option value="">Year</option>
-                                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                                            </select>
-                                            </div>  
-                                            <div className="month-selector">
+                                            <input type="text" placeholder="e.g HR Manager" className="form-name" autoComplete="given-job-title" value={titleJob} onChange={e => setTitleJob(e.target.value)}/>
+                                        </div>
+                                        <div className="city-field">
                                             <label>
-                                                End Date:
+                                                City/Town:
                                             </label>
-                                                <select value={monthJobEnd} className="form-name" onChange={e => setMonthJobEnd(e.target.value)}>
-                                                    <option value="">Month</option>
-                                                    {months.map(m => <option key={m} value={m}>{m}</option>)}
-                                                </select>
-                                            </div>
-                                            <div className="year-selector">
-                                            <label></label>
-                                            <select value={yearJobEnd} className="form-name" onChange={e => setYearJobEnd(e.target.value)}>
-                                                <option value="">Year</option>
-                                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                                            </select>
-                                            </div>  
+                                            <input type="text" placeholder="e.g Chisinau" className="form-name" autoComplete="given-city-job" value={cityJob} onChange={e => setCityJob(e.target.value)}/>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="job-description-fields">
-                                    <div className="job-box-field">
-                                        <label>
-                                            Description:
-                                        </label>
-                                        <ReactQuill
-                                            className="form-name"
-                                            value={jobDescription}
-                                            onChange={setJobDescription}
-                                            placeholder="At the company I worked at several important projects..."
-                                        />
+                                    <div className="employer-full-fields">
+                                        <div className="employer-field">
+                                            <label>
+                                                Employer:
+                                            </label>
+                                            <input type="text" placeholder="e.g Endava" className="form-name" autoComplete="given-employer" value={employer} onChange={e => setEmployer(e.target.value)}/>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div className="study-fields">
+                                        <div className="date-study-full-field">
+                                            <div className="date-study-field">
+                                                <div className="month-selector">
+                                                <label>
+                                                    Start Date:
+                                                </label>
+                                                    <select value={monthJobStart} className="form-name" onChange={e => setMonthJobStart(e.target.value)}>
+                                                        <option value="">Month</option>
+                                                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                    </select>
+                                                </div>
+                                                <div className="year-selector">
+                                                <label></label>
+                                                <select value={yearJobStart} className="form-name" onChange={e => setYearJobStart(e.target.value)}>
+                                                    <option value="">Year</option>
+                                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                                </select>
+                                                </div>  
+                                                <div className="month-selector">
+                                                <label>
+                                                    End Date:
+                                                </label>
+                                                    <select value={monthJobEnd} className="form-name" onChange={e => setMonthJobEnd(e.target.value)}>
+                                                        <option value="">Month</option>
+                                                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                    </select>
+                                                </div>
+                                                <div className="year-selector">
+                                                <label></label>
+                                                <select value={yearJobEnd} className="form-name" onChange={e => setYearJobEnd(e.target.value)}>
+                                                    <option value="">Year</option>
+                                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                                </select>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="job-description-fields">
+                                        <div className="job-box-field">
+                                            <label>
+                                                Description:
+                                            </label>
+                                            <ReactQuill
+                                                className="form-name"
+                                                value={jobDescription}
+                                                onChange={setJobDescription}
+                                                placeholder="At the company I worked at several important projects..."
+                                            />
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                          </div>
                     </div>
