@@ -43,7 +43,7 @@ function App() {
 
   const handleFinalSubmit = async () => {
     try {
-      await axios.post('http://localhost:8080/addPerson', collectedData);
+      await axios.post('http://localhost:8080/addPerson', { data: collectedData });
       console.log('Data submitted successfully!');
     } catch (error) {
       console.error('Error submitting data: ' + error);
