@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import Navbar from './Navbar';
 import PersonForm from './PersonForm';
@@ -25,7 +25,14 @@ function App() {
     achievements: {},
   });
 
+  const childFormRef = useRef();
+
   const handleNextClick = () => {
+    // Try/Catch because not all forms may have 'handleData()' method.
+    try {
+      childFormRef.current.handleData();
+    } catch {}
+
     const currentStepIndex = steps.indexOf(currentForm);
     if (currentStepIndex < steps.length - 1) {
       setCurrentForm(steps[currentStepIndex + 1]);
@@ -43,7 +50,8 @@ function App() {
 
   const handleFinalSubmit = async () => {
     try {
-      await axios.post('http://localhost:8080/addPerson', { data: collectedData });
+      console.log(collectedData);
+      await axios.post('http://localhost:8080/addPerson', collectedData.person);
       console.log('Data submitted successfully!');
     } catch (error) {
       console.error('Error submitting data: ' + error);
@@ -60,13 +68,13 @@ function App() {
   return (
     <div className="App">
       <div className="opacity">
-        {currentForm === 'person' && <PersonForm onDataCollected={onDataCollected} data={collectedData.person}/>}
-        {currentForm === 'education' && <Education onDataCollected={onDataCollected} data={collectedData.education}/>}
-        {currentForm === 'experience' && <Experience onDataCollected={onDataCollected} data={collectedData.experience}/>}
-        {currentForm === 'skills' && <Skills onDataCollected={onDataCollected} data={collectedData.skills}/>}
-        {currentForm === 'languages' && <Languages onDataCollected={onDataCollected} data={collectedData.languages}/>}
-        {currentForm === 'hobby' && <Hobby onDataCollected={onDataCollected} data={collectedData.hobby}/>}
-        {currentForm === 'achievements' && <Achievements onDataCollected={onDataCollected} data={collectedData.achievements}/>}
+        {currentForm === 'person' && <PersonForm ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.person}/>}
+        {currentForm === 'education' && <Education ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.education}/>}
+        {currentForm === 'experience' && <Experience ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.experience}/>}
+        {currentForm === 'skills' && <Skills ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.skills}/>}
+        {currentForm === 'languages' && <Languages ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.languages}/>}
+        {currentForm === 'hobby' && <Hobby ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.hobby}/>}
+        {currentForm === 'achievements' && <Achievements ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.achievements}/>}
         {currentForm === 'finalize' && <Finalize />}
         <div className={`button-submit ${currentForm === 'person' ? 'first-page' : ''}`}>
           {currentForm !== 'person' && (
