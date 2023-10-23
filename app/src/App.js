@@ -51,7 +51,43 @@ function App() {
   const handleFinalSubmit = async () => {
     try {
       console.log(collectedData);
-      await axios.post('http://localhost:8080/addPerson', collectedData);
+      await axios.post('http://localhost:8080/addPerson', {
+        name: collectedData.person.name,
+        lastname: collectedData.person.lastname,
+        address: collectedData.person.address,
+        city: collectedData.person.city,
+        nationality: collectedData.person.nationality,
+        birthdate: collectedData.person.birthdate,
+        sex: collectedData.person.sex,
+        civilStatus: collectedData.person.civilStatus,
+        hasKids: collectedData.person.hasKids,
+        email: collectedData.person.email,
+        countryCode: collectedData.person.countryCode,
+        phoneNumber: collectedData.person.phoneNumber,
+
+        education: collectedData.education.education,
+        citySchool: collectedData.education.citySchool,
+        school: collectedData.education.school,
+        startDateStudy: collectedData.education.startDateStudy,
+        endDateStudy: collectedData.education.endDateStudy,
+
+        titleJob: collectedData.experience.titleJob,
+        cityJob: collectedData.experience.cityJob,
+        employer: collectedData.experience.employer,
+        startDateJob: collectedData.experience.startDateJob,
+        endDateJob: collectedData.experience.endDateJob,
+        descriptionJob: collectedData.experience.descriptionJob,
+
+        skills: collectedData.skills.skills,
+        levelSkills: collectedData.skills.levelSkills,
+
+        language: collectedData.languages.language,
+        levelLanguage: collectedData.languages.levelLanguage,
+
+        hobby: collectedData.hobby.hobby,
+
+        achievements: collectedData.achievements.achievements,
+      });
       console.log('Data submitted successfully!');
     } catch (error) {
       console.error('Error submitting data: ' + error);
