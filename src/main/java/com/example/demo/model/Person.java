@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -67,8 +68,10 @@ public class Person {
     @Column(table = "education_info", length = 60)
     private String citySchool;
     @Column(table = "education_info")
+    @DateTimeFormat(pattern="yyyy-MM")
     private LocalDate startDateStudy;
     @Column(table = "education_info")
+    @DateTimeFormat(pattern="yyyy-MM")
     private LocalDate endDateStudy;
     @Column(table = "job_history", length = 30)
     private String titleJob;
@@ -77,8 +80,10 @@ public class Person {
     @Column(table = "job_history", length = 60)
     private String cityJob;
     @Column(table = "job_history")
+    @DateTimeFormat(pattern="yyyy-MM")
     private LocalDate startDateJob;
     @Column(table = "job_history")
+    @DateTimeFormat(pattern="yyyy-MM")
     private LocalDate endDateJob;
     @Column(table = "job_history", columnDefinition = "text")
     private String descriptionJob;
