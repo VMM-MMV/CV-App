@@ -79,11 +79,11 @@ public class Person {
     private String citySchool;
 
     @Column(table = "education_info")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
+   // @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate startDateStudy;
 
     @Column(table = "education_info")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
+   // @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate endDateStudy;
 
     @Column(table = "job_history", length = 30)
@@ -96,11 +96,11 @@ public class Person {
     private String cityJob;
 
     @Column(table = "job_history")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
+   // @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate startDateJob;
 
     @Column(table = "job_history")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
+   // @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate endDateJob;
 
     @Column(table = "job_history", columnDefinition = "text")
