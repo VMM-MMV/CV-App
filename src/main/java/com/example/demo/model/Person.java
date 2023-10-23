@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,12 +79,12 @@ public class Person {
     private String citySchool;
 
     @Column(table = "education_info")
-    @DateTimeFormat(pattern="yyyy-MM")
-    private YearMonth startDateStudy;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate startDateStudy;
 
     @Column(table = "education_info")
-    @DateTimeFormat(pattern="yyyy-MM")
-    private YearMonth endDateStudy;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate endDateStudy;
 
     @Column(table = "job_history", length = 30)
     private String titleJob;
@@ -95,12 +96,12 @@ public class Person {
     private String cityJob;
 
     @Column(table = "job_history")
-    @DateTimeFormat(pattern="yyyy-MM")
-    private YearMonth startDateJob;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate startDateJob;
 
     @Column(table = "job_history")
-    @DateTimeFormat(pattern="yyyy-MM")
-    private YearMonth endDateJob;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate endDateJob;
 
     @Column(table = "job_history", columnDefinition = "text")
     private String descriptionJob;
