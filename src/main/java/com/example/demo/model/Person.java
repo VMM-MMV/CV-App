@@ -119,6 +119,6 @@ public class Person {
     private LevelLanguage levelLanguage;
 
     private String hobby;
-
+    @Column(columnDefinition = "text")
     private String achievements;
 }
