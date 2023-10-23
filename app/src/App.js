@@ -51,12 +51,13 @@ function App() {
   const handleFinalSubmit = async () => {
     try {
       console.log(collectedData);
-      await axios.post('http://localhost:8080/addPerson', collectedData.person);
+      await axios.post('http://localhost:8080/addPerson', collectedData);
       console.log('Data submitted successfully!');
     } catch (error) {
       console.error('Error submitting data: ' + error);
     }
   };
+  
 
   const onDataCollected = (step, data) => {
     setCollectedData((prevData) => ({
