@@ -113,21 +113,31 @@ function App() {
         {currentForm === 'hobby' && <Hobby ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.hobby}/>}
         {currentForm === 'achievements' && <Achievements ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.achievements}/>}
         {currentForm === 'finalize' && <Finalize />}
-        <div className={`button-submit ${currentForm === 'person' ? 'first-page' : ''}`}>
-          {currentForm !== 'person' && (
-            <button onClick={handleBackClick} className="button-field button-back" type="button">
-              Back
-            </button>
-          )}
-          {isFinalizePage ? (
-            <button onClick={handleFinalSubmit} className="button-field button-next" type="button">
-              Submit
-            </button>
-          ) : (
-            <button onClick={handleNextClick} className="button-field button-next" type="button">
-              Next page
-            </button>
-          )}
+        <div className="aside-right">
+          <div className="container">
+            <div className="main-page">
+              <div className="space">
+                <div className="form">
+                  <div className={`button-submit ${currentForm === 'person' ? 'first-page' : ''}`}>
+                    {currentForm !== 'person' && (
+                        <button onClick={handleBackClick} className="button-field button-back" type="button">
+                          Back
+                        </button>
+                    )}
+                    {isFinalizePage ? (
+                        <button onClick={handleFinalSubmit} className="button-field button-next" type="button">
+                          Submit
+                        </button>
+                    ) : (
+                        <button onClick={handleNextClick} className="button-field button-next" type="button">
+                          Next page
+                        </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <Navbar currentForm={currentForm} steps={steps} />
       </div>
