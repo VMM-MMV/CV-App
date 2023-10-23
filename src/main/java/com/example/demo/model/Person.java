@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 
 @Data
 @Entity
@@ -50,51 +51,73 @@ public class Person {
 
     @Column(unique = true, length = 50)
     private String email;
+
     @Column(table = "phone_number", length = 5)
     private String countryCode;
+
     @Column(table = "phone_number", length = 15)
     private String phoneNumber;
+
     @Column(length = 60)
     private String address;
+
     @Column(length = 20)
     private String nationality;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 12)
     private CivilStatus civilStatus;
+
     @Column(table = "education_info", length = 60)
     private String education;
+
     @Column(table = "education_info", length = 60)
     private String school;
+
     @Column(table = "education_info", length = 60)
     private String citySchool;
+
     @Column(table = "education_info")
     @DateTimeFormat(pattern="yyyy-MM")
-    private LocalDate startDateStudy;
+    private YearMonth startDateStudy;
+
     @Column(table = "education_info")
     @DateTimeFormat(pattern="yyyy-MM")
-    private LocalDate endDateStudy;
+    private YearMonth endDateStudy;
+
     @Column(table = "job_history", length = 30)
     private String titleJob;
+
     @Column(table = "job_history", length = 30)
     private String employer;
+
     @Column(table = "job_history", length = 60)
     private String cityJob;
+
     @Column(table = "job_history")
     @DateTimeFormat(pattern="yyyy-MM")
-    private LocalDate startDateJob;
+    private YearMonth startDateJob;
+
     @Column(table = "job_history")
     @DateTimeFormat(pattern="yyyy-MM")
-    private LocalDate endDateJob;
+    private YearMonth endDateJob;
+
     @Column(table = "job_history", columnDefinition = "text")
     private String descriptionJob;
+
     @Column(table = "skills_info", length = 50)
     private String skills;
+
     @Column(table = "skills_info", length = 50)
     private LevelSkills levelSkills;
+
     @Column(table = "language_info", length = 50)
     private String language;
+
     @Column(table = "language_info", length = 50)
     private LevelLanguage levelLanguage;
+
     private String hobby;
+
     private String achievements;
 }
