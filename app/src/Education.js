@@ -41,6 +41,10 @@ class Education extends React.Component {
         this.onDataCollected('education', this.data);
     }
 
+    renderOptions = (array) => array.map(value => (
+        <option key={value} value={value}>{value}</option>
+    ));
+
     render () { 
 
         const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -88,14 +92,14 @@ class Education extends React.Component {
                                                     </label>
                                                         <select value={this.state.monthStart} className="form-name" onChange={this.handleMonthStudyStartChange}>
                                                             <option value="">Month</option>
-                                                            {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                            {this.renderOptions(months)}
                                                         </select>
                                                     </div>
                                                     <div className="year-selector">
                                                     <label></label>
                                                     <select value={this.state.yearStart} className="form-name" onChange={this.handleYearStudyStartChange}>
                                                         <option value="">Year</option>
-                                                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                                        {this.renderOptions(years)}
                                                     </select>
                                                     </div>  
                                                     <div className="month-selector">
@@ -104,14 +108,14 @@ class Education extends React.Component {
                                                     </label>
                                                         <select value={this.state.monthEnd} className="form-name" onChange={this.handleMonthStudyEndChange}>
                                                             <option value="">Month</option>
-                                                            {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                            {this.renderOptions(months)}
                                                         </select>
                                                     </div>
                                                     <div className="year-selector">
                                                     <label></label>
                                                     <select value={this.state.yearEnd} className="form-name" onChange={this.handleYearStudyEndChange}>
                                                         <option value="">Year</option>
-                                                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                                        {this.renderOptions(years)}
                                                     </select>
                                                     </div>  
                                                 </div>

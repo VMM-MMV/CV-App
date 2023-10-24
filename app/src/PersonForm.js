@@ -100,6 +100,11 @@ class PersonForm extends React.Component {
 
     }
 
+    renderOptions = (array) => array.map(value => (
+        <option key={value} value={value}>{value}</option>
+    ));
+
+
     render() {
 
         const days = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -163,21 +168,21 @@ class PersonForm extends React.Component {
                                                 </label>
                                                     <select value={this.state.day} className="form-name" onChange={this.handleDayChange}>
                                                         <option value="">Day</option>
-                                                        {days.map(d => <option key={d} value={d}>{d}</option>)}
+                                                        {this.renderOptions(days)}
                                                     </select>
                                                 </div>
                                                 <div className="month-selector">
                                                 <label></label>
                                                     <select value={this.state.month} className="form-name" onChange={this.handleMonthChange}>
                                                         <option value="">Month</option>
-                                                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                                                        {this.renderOptions(months)}
                                                     </select>
                                                 </div>
                                                 <div className="year-selector">
                                                 <label></label>
                                                 <select value={this.state.year} className="form-name" onChange={this.handleYearChange}>
                                                     <option value="">Year</option>
-                                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                                    {this.renderOptions(years)}
                                                 </select>
                                                 </div>  
                                             </div>
@@ -229,11 +234,11 @@ class PersonForm extends React.Component {
                                             </label>
                                                 <select className="form-name" value={this.data.countryCode} onChange={e => this.data.countryCode = e.target.value}>
                                                 <option value="">Select Code</option>
-                                                {countries.map(country => (
-                                                    <option key={country.code} value={country.code}>
-                                                    {country.name} ({country.code})
-                                                    </option>
-                                                ))}
+                                                    {countries.map((country, index) => (
+                                                        <option key={country.code + index} value={country.code}>
+                                                            {country.name} ({country.code})
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
