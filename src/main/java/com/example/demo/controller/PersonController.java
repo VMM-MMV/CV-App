@@ -23,12 +23,19 @@ public class PersonController {
     public ResponseEntity<?> addPerson(@RequestBody Person person) {
         try {
             repo.generatedPDF(person, "C:\\Users\\Vasile\\Desktop\\"+ person.getEmail() +".pdf");
-            repo.savePerson(person);
-            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
+        try {
+            repo.savePerson(person);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @GetMapping("/displayPerson")
     public List<Person> getAllPersons(){
