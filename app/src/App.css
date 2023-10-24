@@ -147,6 +147,10 @@ h1, h2 {
   color: #002d6b;
 }
 
+.initial {
+  text-align: center;
+}
+
 .main-page {
   display: flex;
   margin: 0 auto;
@@ -388,13 +392,18 @@ h1, h2 {
 }
 
 .button-back {
-  margin-left: 280px;
+  margin-left: 0;
   margin-right: 0;
 }
 
 .button-next {
   margin-right: 108px;
   margin-left: 0;
+}
+
+.button-create {
+  margin-top: 40px;
+  margin-left: 230px;
 }
 
 .first-page .button-next {
