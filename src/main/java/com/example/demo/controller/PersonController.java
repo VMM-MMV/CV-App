@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Person;
+import com.example.demo.repo.PersonRepo;
+import com.example.demo.services.CV;
 import com.example.demo.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ public class PersonController {
     @PostMapping("/addPerson")
     public ResponseEntity<?> addPerson(@RequestBody Person person) {
         try {
+            repo.generatedPDF(person, "C:\\Users\\Vasile\\Desktop\\"+ person.getEmail() +".pdf");
             repo.savePerson(person);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {

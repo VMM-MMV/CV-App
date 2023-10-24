@@ -5,6 +5,7 @@ import com.example.demo.repo.PersonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
 public class PersonService {
     @Autowired
     PersonRepo repo;
+    @Autowired
+    CV cv;
 
     public void savePerson(Person person) {
         repo.save(person);
@@ -48,5 +51,8 @@ public class PersonService {
             previousPerson.setId(id);
             repo.save(previousPerson);
         }
+    }
+    public void generatedPDF(Person person, String path) throws FileNotFoundException {
+        cv.generatePDF(person, path);
     }
 }
