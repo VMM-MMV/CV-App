@@ -40,7 +40,6 @@ public class CV {
                 + " to " + person.getEndDateJob() + ")"));
 
         org.jsoup.nodes.Document descriptionDoc = Jsoup.parse(person.getDescriptionJob());
-
         document.add(new Paragraph("Description Job: " + descriptionDoc.text()));
 
         document.add(new Paragraph("\nSKILLS"));
