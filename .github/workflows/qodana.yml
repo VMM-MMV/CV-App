@@ -1,0 +1,21 @@
+name: Qodana Scan
+on:
+  pull_request:
+    branches:
+      - main  # Adjust this to your branch name if it's not 'main'
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Required for Qodana in pull request mode
+      - name: Run Qodana Scan
+        uses: JetBrains/qodana-action@v2023.2  # Adjust the version tag as needed
+        with:
+          args: --apply-fixes  # Optional: If you want Qodana to automatically apply fixes
+          push-fixes: pull-request  # Optional: If you want Qodana to create a PR with fixes
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
