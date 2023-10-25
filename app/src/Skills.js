@@ -19,13 +19,13 @@ class Skills extends React.Component {
         const newValue = parseInt(event.target.value, 10);
 
         let levelSkill;
-
         switch(newValue) {
             case 0: levelSkill = 'Beginner'; break;
             case 25: levelSkill = 'Moderate'; break;
             case 50: levelSkill = 'Skillful'; break;
             case 75: levelSkill = 'Experienced'; break;
             case 100: levelSkill = 'Expert'; break;
+            default: levelSkill = 'Unknown'; break;
         }
 
         this.setState({ rangeValue: newValue });
@@ -73,7 +73,7 @@ class Skills extends React.Component {
                                                 <div className="level-skills-align">
                                                     <input type="range" id="levelSKills" min="0" max="100" list="markers" step="25" className="form-name" autoComplete="off" value={this.state.rangeValue} onChange={(event) => this.handleRangeChange(event)}/>
                                                     <div className="level-text-container">
-                                                        <label for="levelSkill" className="level-text-label">{text}</label>
+                                                        <label className="level-text-label">{text}</label>
                                                     </div>
                                                     <datalist id="markers">
                                                         <option value="Beginner" label="Beginner"></option>
