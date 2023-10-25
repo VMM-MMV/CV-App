@@ -23,7 +23,7 @@ public class PersonController {
     @PostMapping("/addPerson")
     public ResponseEntity<?> addPerson(@RequestBody Person person) {
         try {
-            repo.generatePDF(person, "C:\\Users\\Vasile\\Desktop\\"+ person.getEmail() +".pdf");
+            repo.generatePDF(person, "C:\\Users\\Vasile\\Desktop\\"+ person.getName() + " " + person.getLastname() +".pdf");
         } catch (FileNotFoundException e) {
             logger.error("An error occurred during PDF generation: {}", e.getMessage());
         }
