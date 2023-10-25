@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Person;
-import com.example.demo.repo.PersonRepo;
-import com.example.demo.services.CV;
 import com.example.demo.services.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -26,7 +23,7 @@ public class PersonController {
     @PostMapping("/addPerson")
     public ResponseEntity<?> addPerson(@RequestBody Person person) {
         try {
-            repo.generatedPDF(person, "C:\\Users\\Vasile\\Desktop\\"+ person.getEmail() +".pdf");
+            repo.generatePDF(person, "C:\\Users\\Vasile\\Desktop\\"+ person.getEmail() +".pdf");
         } catch (FileNotFoundException e) {
             logger.error("An error occurred during PDF generation: {}", e.getMessage());
         }
