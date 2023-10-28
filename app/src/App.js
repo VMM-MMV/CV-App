@@ -13,8 +13,10 @@ import Finalize from './Finalize';
 import axios from 'axios';
 
 function App() {
-  const steps = ['initial', 'person', 'education', 'experience', 'skills', 'languages', 'hobby', 'achievements', 'finalize'];
+  const steps = ['person', 'education', 'experience', 'skills', 'languages', 'hobby', 'achievements', 'finalize'];
   const [currentForm, setCurrentForm] = useState('initial');
+  const [furthestStepReached, setFurthestStepReached] = useState(0);
+  // const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [collectedData, setCollectedData] = useState({
     person: {},
@@ -40,7 +42,11 @@ function App() {
 
     const currentStepIndex = steps.indexOf(currentForm);
     if (currentStepIndex < steps.length - 1) {
+      const nextStepIndex = steps.indexOf(currentForm) + 1;
       setCurrentForm(steps[currentStepIndex + 1]);
+      if (nextStepIndex > furthestStepReached) {
+        setFurthestStepReached(nextStepIndex);
+      }
     }
   };
 
@@ -56,6 +62,7 @@ function App() {
   const handleFinalSubmit = async () => {
     try {
       console.log(collectedData);
+      // setFormSubmitted(true);
       await axios.post('http://localhost:8080/addPerson', {
         name: collectedData.person.name,
         lastname: collectedData.person.lastname,
@@ -109,7 +116,6 @@ function App() {
 
   return (
     <div className="App">
-      <div className="opacity">
         {currentForm === 'initial' && <Initial onStartClick={handleStartClick}/>}
         {currentForm === 'person' && <PersonForm ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.person}/>}
         {currentForm === 'education' && <Education ref={childFormRef} onDataCollected={onDataCollected} data={collectedData.education}/>}
@@ -147,8 +153,12 @@ function App() {
             </div>
           </div>
         </div>
-        <Navbar currentForm={currentForm} steps={steps} />
-      </div>
+      <aside className="aside-nav">
+        <footer className="footer footer-aside">
+          <Navbar currentForm={currentForm} steps={steps} furthestStepReached={furthestStepReached}/>
+          {/*<Navbar currentForm={currentForm} steps={steps} furthestStepReached={furthestStepReached} formSubmitted={formSubmitted}/>*/}
+        </footer>
+      </aside>
     </div>
   );
 }
