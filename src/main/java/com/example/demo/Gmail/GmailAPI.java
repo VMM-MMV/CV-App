@@ -15,9 +15,14 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 import org.apache.commons.codec.binary.Base64;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +36,7 @@ import static javax.mail.Message.RecipientType.TO;
 
 public class GmailAPI {
 
-    private static final String TEST_EMAIL  = "team10faf@gmail.com";
+    private static final String TEST_EMAIL  = "ceban.vasea20@gmail.com";
     private final Gmail service;
 
     public GmailAPI() throws Exception {
@@ -44,7 +49,7 @@ public class GmailAPI {
     }
     private static Credential getCredentials(final NetHttpTransport http_Transport, GsonFactory jsonFactory)
             throws IOException {
-        
+
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull(GmailAPI.class.getResourceAsStream("/credentials.json"))));
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 http_Transport, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
@@ -56,7 +61,7 @@ public class GmailAPI {
 
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-    public void sendMail(String subject, String message) throws Exception {
+    public void sendMail(String subject, String message, String filePath) throws Exception {
 
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -65,6 +70,16 @@ public class GmailAPI {
         email.addRecipient(TO, new InternetAddress(TEST_EMAIL));
         email.setSubject(subject);
         email.setText(message);
+
+        MimeBodyPart attachPart = new MimeBodyPart();
+        FileDataSource fds = new FileDataSource(filePath);
+        attachPart.setDataHandler(new DataHandler(fds));
+        attachPart.setFileName(fds.getName());
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(attachPart);
+
+        email.setContent(multipart);
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
@@ -80,14 +95,14 @@ public class GmailAPI {
         } catch (GoogleJsonResponseException e) {
             GoogleJsonError error = e.getDetails();
             if (error.getCode() == 403) {
-                System.err.println("Unable to create draft: " + e.getDetails());
+                System.err.println("Unable to send message: " + e.getDetails());
             } else {
                 throw e;
             }
         }
     }
     public static void main(String[] args) throws Exception {
-        new GmailAPI().sendMail("A new message", "It is working!!!");
+        new GmailAPI().sendMail("A new message with PDF", "Hello. What do you do?", "D:\\New folder\\FAF-223\\POO\\oop-lab-2.pdf");
     }
 
 }
