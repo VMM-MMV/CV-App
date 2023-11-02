@@ -12,7 +12,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.Draft;
 import com.google.api.services.gmail.model.Message;
 import org.apache.commons.codec.binary.Base64;
 
@@ -75,11 +74,9 @@ public class GmailAPI {
         msg.setRaw(encodedEmail);
 
         try {
-            Draft draft = new Draft();
-            draft.setMessage(msg);
-            draft = service.users().drafts().create("me", draft).execute();
-            System.out.println("Draft id: " + draft.getId());
-            System.out.println(draft.toPrettyString());
+            msg = service.users().messages().send("me", msg).execute();
+            System.out.println("Message id: " + msg.getId());
+            System.out.println(msg.toPrettyString());
         } catch (GoogleJsonResponseException e) {
             GoogleJsonError error = e.getDetails();
             if (error.getCode() == 403) {
