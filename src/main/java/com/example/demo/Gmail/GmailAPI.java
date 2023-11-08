@@ -59,7 +59,7 @@ public class GmailAPI {
 
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-    public void listMessagesWithAttachments(String directory) {
+    public void listMessagesWithAttachments() {
         try {
             ListMessagesResponse response = serviceGmail.users().messages().list("me")
                     .setMaxResults(10L)
@@ -81,57 +81,47 @@ public class GmailAPI {
                             String filename = part.getFilename();
                             if (filename != null && filename.endsWith(".pdf")) {
                                 String attId = part.getBody().getAttachmentId();
-                                getAttachments(messageId, attId, directory, filename);
+                                uploadResumeToDrive(messageId, attId, null, filename);
                             }
                         }
                     }
                 }
             }
-            System.out.println("Attachments have been retrieved.");
+            System.out.println("CVs have been uploaded to the drive.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void getAttachments(String messageId, String attachmentId, String directory, String filename) {
-        try {
-            MessagePartBody attachPart = serviceGmail.users().messages().attachments().get("me", messageId, attachmentId).execute();
-            byte[] fileByteArray = attachPart.decodeData();
 
-            FileOutputStream fos = new FileOutputStream(directory + "/" + filename);
+    public void uploadResumeToDrive(String messageId, String attachmentId, String folderId, String filename) {
+        try {
+            MessagePartBody attachment = serviceGmail.users().messages().attachments().get("me", messageId, attachmentId).execute();
+
+            byte[] fileByteArray = attachment.decodeData();
+            FileOutputStream fos = new FileOutputStream(filename);
             fos.write(fileByteArray);
             fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void uploadResumeToDrive(List<String> filePaths, String driveFolderId) {
-        try {
-            for (String filePath : filePaths) {
-                java.io.File fileContent = new java.io.File(filePath);
-                File fileMetadata = new File();
-                fileMetadata.setName(fileContent.getName());
-                fileMetadata.setMimeType("application/pdf");
-
-                File uploadedFile = driveService.files().create(fileMetadata, new FileContent("application/pdf", fileContent))
-                        .setFields("id")
-                        .execute();
-
-                if (driveFolderId != null && !driveFolderId.isEmpty()) {
-                    driveService.files().update(uploadedFile.getId(), null)
-                            .setFields("id, parents")
-                            .execute();
-                }
-
-                System.out.println("Fișierul " + fileContent.getName() + " a fost încărcat pe Google Drive.");
+            File fileMetadata = new File();
+            fileMetadata.setName(filename);
+            if (folderId != null) {
+                fileMetadata.setParents(Collections.singletonList(folderId));
             }
-        } catch (Exception e) {
+
+            java.io.File tempFile = new java.io.File(filename);
+            FileContent mediaContent = new FileContent("application/pdf", tempFile);
+
+            driveService.files().create(fileMetadata, mediaContent)
+                    .setFields("id")
+                    .execute();
+
+            tempFile.delete();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public static void main(String[] args) throws Exception {
-            new GmailAPI().listMessagesWithAttachments( "C:\\Users\\Vasile\\cv");
-            new GmailAPI().uploadResumeToDrive(Collections.singletonList("C:\\Users\\Vasile\\cv\\MyCV.pdf"), "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe");
+            new GmailAPI().listMessagesWithAttachments( );
     }
 
 }
