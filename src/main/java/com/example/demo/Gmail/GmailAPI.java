@@ -6,37 +6,26 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
-import org.apache.commons.codec.binary.Base64;
+import com.google.api.services.gmail.model.MessagePart;
+import com.google.api.services.gmail.model.MessagePartBody;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
-import java.util.Properties;
 import java.util.Set;
 
-import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
-import static javax.mail.Message.RecipientType.TO;
+import static com.google.api.services.gmail.GmailScopes.GMAIL_READONLY;
 
 public class GmailAPI {
-
-    private static final String TEST_EMAIL  = "ceban.vasea20@gmail.com";
     private final Gmail service;
 
     public GmailAPI() throws Exception {
@@ -47,12 +36,12 @@ public class GmailAPI {
                 .setApplicationName("Test Gmail API")
                 .build();
     }
-    private static Credential getCredentials(final NetHttpTransport http_Transport, GsonFactory jsonFactory)
+    private Credential getCredentials(final NetHttpTransport http_Transport, GsonFactory jsonFactory)
             throws IOException {
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull(GmailAPI.class.getResourceAsStream("/credentials.json"))));
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                http_Transport, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
+                http_Transport, jsonFactory, clientSecrets, Set.of(GMAIL_READONLY))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
                 .setAccessType("offline")
                 .build();
@@ -61,48 +50,41 @@ public class GmailAPI {
 
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-    public void sendMail(String subject, String message, String filePath) throws Exception {
-
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-        MimeMessage email = new MimeMessage(session);
-        email.setFrom(new InternetAddress(TEST_EMAIL));
-        email.addRecipient(TO, new InternetAddress(TEST_EMAIL));
-        email.setSubject(subject);
-        email.setText(message);
-
-        MimeBodyPart attachPart = new MimeBodyPart();
-        FileDataSource fds = new FileDataSource(filePath);
-        attachPart.setDataHandler(new DataHandler(fds));
-        attachPart.setFileName(fds.getName());
-
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(attachPart);
-
-        email.setContent(multipart);
-
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        email.writeTo(buffer);
-        byte[] rawMessageBytes = buffer.toByteArray();
-        String encodedEmail = Base64.encodeBase64URLSafeString(rawMessageBytes);
-        Message msg = new Message();
-        msg.setRaw(encodedEmail);
-
+    public void getAttachment(String directory) {
         try {
-            msg = service.users().messages().send("me", msg).execute();
-            System.out.println("Message id: " + msg.getId());
-            System.out.println(msg.toPrettyString());
-        } catch (GoogleJsonResponseException e) {
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 403) {
-                System.err.println("Unable to send message: " + e.getDetails());
-            } else {
-                throw e;
+            ListMessagesResponse response = service.users().messages().list("me")
+                    .setMaxResults(10L)
+                    .execute();
+
+            List<Message> messages = response.getMessages();
+
+            for (Message message : messages) {
+                String messageId = message.getId();
+                Message messageWithAttachments = service.users().messages().get("me", messageId)
+                        .setFormat("full")
+                        .execute();
+                List<MessagePart> parts = messageWithAttachments.getPayload().getParts();
+                for (MessagePart part : parts) {
+                    if (part != null) {
+                        String filename = part.getFilename();
+                        if (filename != null && filename.endsWith(".pdf")) {
+                            String attId = part.getBody().getAttachmentId();
+                            MessagePartBody attachPart = service.users().messages().attachments().get("me", messageId, attId).execute();
+                            byte[] fileByteArray = attachPart.decodeData();
+
+                            FileOutputStream fos = new FileOutputStream(directory + "/" + filename);
+                            fos.write(fileByteArray);
+                            fos.close();
+                        }
+                    }
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    public static void main(String[] args) throws Exception {
-        new GmailAPI().sendMail("A new message with PDF", "Hello. What do you do?", "D:\\New folder\\FAF-223\\POO\\oop-lab-2.pdf");
+        public static void main(String[] args) throws Exception {
+            new GmailAPI().getAttachment( "C:\\Users\\Vasile\\Desktop\\test_repository");
     }
 
 }
