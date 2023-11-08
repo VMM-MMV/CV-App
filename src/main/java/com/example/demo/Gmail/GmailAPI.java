@@ -39,12 +39,13 @@ public class GmailAPI {
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
         serviceGmail = new Gmail.Builder(httpTransport, jsonFactory, getCredentials(httpTransport, jsonFactory))
-                .setApplicationName("Test Gmail API")
+                .setApplicationName("Service Gmail API")
                 .build();
         driveService = new Drive.Builder(httpTransport, jsonFactory, getCredentials(httpTransport, jsonFactory))
-                .setApplicationName("Test Google Drive API")
+                .setApplicationName("Service Google Drive API")
                 .build();
     }
+
     private Credential getCredentials(final NetHttpTransport http_Transport, GsonFactory jsonFactory)
             throws IOException {
 
@@ -59,6 +60,7 @@ public class GmailAPI {
 
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
+
     public void listMessagesWithAttachments() {
         try {
             ListMessagesResponse response = serviceGmail.users().messages().list("me")
@@ -81,7 +83,7 @@ public class GmailAPI {
                             String filename = part.getFilename();
                             if (filename != null && filename.endsWith(".pdf")) {
                                 String attId = part.getBody().getAttachmentId();
-                                uploadResumeToDrive(messageId, attId, null, filename);
+                                uploadResumeToDrive(messageId, attId, "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe", filename);
                             }
                         }
                     }
@@ -116,6 +118,7 @@ public class GmailAPI {
                     .execute();
 
             tempFile.delete();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,5 +126,4 @@ public class GmailAPI {
     public static void main(String[] args) throws Exception {
             new GmailAPI().listMessagesWithAttachments( );
     }
-
 }
