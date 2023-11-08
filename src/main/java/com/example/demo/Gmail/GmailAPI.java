@@ -50,7 +50,7 @@ public class GmailAPI {
 
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-    public void getAttachment(String directory) {
+    public void listMessagesWithAttachments(String directory) {
         try {
             ListMessagesResponse response = service.users().messages().list("me")
                     .setMaxResults(10L)
@@ -63,28 +63,40 @@ public class GmailAPI {
                 Message messageWithAttachments = service.users().messages().get("me", messageId)
                         .setFormat("full")
                         .execute();
-                List<MessagePart> parts = messageWithAttachments.getPayload().getParts();
-                for (MessagePart part : parts) {
-                    if (part != null) {
-                        String filename = part.getFilename();
-                        if (filename != null && filename.endsWith(".pdf")) {
-                            String attId = part.getBody().getAttachmentId();
-                            MessagePartBody attachPart = service.users().messages().attachments().get("me", messageId, attId).execute();
-                            byte[] fileByteArray = attachPart.decodeData();
 
-                            FileOutputStream fos = new FileOutputStream(directory + "/" + filename);
-                            fos.write(fileByteArray);
-                            fos.close();
+                MessagePart payload = messageWithAttachments.getPayload();
+                if (payload != null) {
+                    List<MessagePart> parts = payload.getParts();
+                    if (parts != null) {
+                        for (MessagePart part : parts) {
+                            String filename = part.getFilename();
+                            if (filename != null && filename.endsWith(".pdf")) {
+                                String attId = part.getBody().getAttachmentId();
+                                getAttachments(messageId, attId, directory, filename);
+                            }
                         }
                     }
                 }
             }
+            System.out.println("Attachments have been retrieved.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-        public static void main(String[] args) throws Exception {
-            new GmailAPI().getAttachment( "C:\\Users\\Vasile\\Desktop\\test_repository");
+    public void getAttachments(String messageId, String attachmentId, String directory, String filename) {
+        try {
+            MessagePartBody attachPart = service.users().messages().attachments().get("me", messageId, attachmentId).execute();
+            byte[] fileByteArray = attachPart.decodeData();
+
+            FileOutputStream fos = new FileOutputStream(directory + "/" + filename);
+            fos.write(fileByteArray);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args) throws Exception {
+            new GmailAPI().listMessagesWithAttachments( "C:\\Users\\Public\\Documents");
     }
 
 }
