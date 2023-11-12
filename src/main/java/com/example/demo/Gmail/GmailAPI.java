@@ -9,6 +9,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
@@ -24,10 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class GmailAPI {
     private final Gmail serviceGmail;
@@ -112,9 +110,7 @@ public class GmailAPI {
             java.io.File tempFile = new java.io.File(filename);
             FileContent mediaContent = new FileContent("application/pdf", tempFile);
 
-            driveService.files().create(fileMetadata, mediaContent)
-                    .setFields("id")
-                    .execute();
+            driveService.files().create(fileMetadata, mediaContent).setSupportsTeamDrives(true).execute();
 
             tempFile.delete();
 
@@ -122,7 +118,48 @@ public class GmailAPI {
             e.printStackTrace();
         }
     }
+
+    public void deleteDuplicateFilesInDrive(String folderId) {
+        try {
+            List<File> driveFiles = getDriveFiles(folderId);
+            Map<String, List<File>> fileMap = new HashMap<>();
+
+            for (File file : driveFiles) {
+                String fileName = file.getName();
+                fileMap.computeIfAbsent(fileName, k -> new ArrayList<>()).add(file);
+            }
+
+            for (Map.Entry<String, List<File>> entry : fileMap.entrySet()) {
+                List<File> duplicates = entry.getValue();
+                if (duplicates.size() > 1) {
+                    duplicates.sort(Comparator.comparingLong(file -> {
+                        DateTime modifiedTime = file.getModifiedTime();
+                        return (modifiedTime != null) ? modifiedTime.getValue() : 0L;
+                    }));
+
+                    for (int i = 0; i < duplicates.size() - 1; i++) {
+                        File fileToDelete = duplicates.get(i);
+                        try {
+                            driveService.files().delete(fileToDelete.getId()).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            System.out.println("Duplicate CVs were deleted.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<File> getDriveFiles(String folderId) throws IOException {
+        String query = "'" + folderId + "' in parents and trashed=false";
+        return driveService.files().list().setQ(query).execute().getFiles();
+    }
+
     public static void main(String[] args) throws Exception {
-            new GmailAPI().listMessagesWithAttachments( );
+            new GmailAPI().listMessagesWithAttachments();
+            new GmailAPI().deleteDuplicateFilesInDrive("1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe");
     }
 }
