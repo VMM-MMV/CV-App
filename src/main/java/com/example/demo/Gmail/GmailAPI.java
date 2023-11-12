@@ -14,6 +14,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.MessagePart;
@@ -27,8 +28,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import static com.google.api.services.gmail.GmailScopes.GMAIL_READONLY;
 
 public class GmailAPI {
     private final Gmail serviceGmail;
@@ -51,7 +50,7 @@ public class GmailAPI {
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull(GmailAPI.class.getResourceAsStream("/credentials.json"))));
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                http_Transport, jsonFactory, clientSecrets, Set.of(GMAIL_READONLY, DriveScopes.DRIVE_FILE))
+                http_Transport, jsonFactory, clientSecrets, Set.of(GmailScopes.GMAIL_READONLY, DriveScopes.DRIVE_FILE))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
                 .setAccessType("offline")
                 .build();
@@ -81,7 +80,7 @@ public class GmailAPI {
                     if (parts != null) {
                         for (MessagePart part : parts) {
                             String filename = part.getFilename();
-                            if (filename != null && filename.endsWith(".pdf")) {
+                            if (filename != null && (filename.endsWith(".pdf") || filename.endsWith(".docx") || filename.endsWith(".doc"))) {
                                 String attId = part.getBody().getAttachmentId();
                                 uploadResumeToDrive(messageId, attId, "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe", filename);
                             }
