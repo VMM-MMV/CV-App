@@ -3,7 +3,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepIcon from '@mui/material/StepIcon';
-import CheckIcon from '@mui/icons-material/Check';
+// import CheckIcon from '@mui/icons-material/Check';
 import { styled } from '@mui/material/styles';
 
 const CustomStepLabel = styled(({ isActiveStep, ...other }) => <StepLabel {...other} />)(({ theme, isActiveStep }) => ({
