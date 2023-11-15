@@ -53,4 +53,4 @@ jobs:
           app-name: 'FAF-CV-APP'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E29B0373F29C4BF8A0141649048D082D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_662DB2893A6C41249732424B90087A92 }}
