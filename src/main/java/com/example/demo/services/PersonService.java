@@ -6,19 +6,66 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import jakarta.annotation.PostConstruct;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class PersonService {
     @Autowired
     PersonRepo repo;
+
+    @Value("${SQLCONNSTR_DATABASE_URL:default_value}")
+    private String dbUrl;
+
+    @Value("${SQLCONNSTR_DATABASE_USERNAME:default_value}")
+    private String dbUsername;
+
+    @Value("${SQLCONNSTR_DATABASE_PASSWORD:default_value}")
+    private String dbPassword;
+
+    @PostConstruct
+    public void writePropertiesFile() {
+        Properties prop = new Properties();
+        OutputStream output = null;
+
+        try {
+            output = new FileOutputStream("application.properties");
+
+            // set the properties value
+            prop.setProperty("spring.datasource.url", dbUrl);
+            prop.setProperty("spring.datasource.username", dbUsername);
+            prop.setProperty("spring.datasource.password", dbPassword);
+            prop.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
+            prop.setProperty("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            prop.setProperty("spring.jpa.hibernate.ddl-auto", "update");
+
+            // save properties to project root folder
+            prop.store(output, null);
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public void savePerson(Person person) {
         repo.save(person);
@@ -58,6 +105,7 @@ public class PersonService {
     public void generatePDF(Person person, String outputPath) throws FileNotFoundException {
         PdfWriter writer = new PdfWriter(outputPath);
         PdfDocument pdf = new PdfDocument(writer);
+
         Document document = new Document(pdf);
 
         document.add(new Paragraph("First Name: "+person.getName() + " " + "Lats Name: " +person.getLastname()));

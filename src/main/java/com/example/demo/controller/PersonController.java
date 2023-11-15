@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -32,9 +33,24 @@ public class PersonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/env")
+    public ResponseEntity<Map<String, String>> getAllEnv() {
+        Map<String, String> envMap = System.getenv();
+        return new ResponseEntity<>(envMap, HttpStatus.OK);
+    }
+
     @GetMapping("/displayPerson")
     public List<Person> getAllPersons(){
         return repo.getAllPersons();
+    }
+
+    @GetMapping("/message")
+    public String getConfirmationMessage(){
+        return "There was a connection";
+    }
+    @GetMapping("/envm")
+    public String getEnvConection(){
+        return "There was a connection";
     }
 
     @DeleteMapping("/deletePerson/{email}")
