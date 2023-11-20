@@ -6,7 +6,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.FileContent;
+import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
@@ -21,9 +21,9 @@ import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.MessagePart;
 import com.google.api.services.gmail.model.MessagePartBody;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -92,32 +92,35 @@ public class ResumeService {
             }
         }
 
-        public void uploadResumeToDrive(String messageId, String attachmentId, String folderId, String filename) {
-            try {
+    public void uploadResumeToDrive(String messageId, String attachmentId, String folderId, String filename) {
+        try {
+            if (messageId != null && attachmentId != null) {
                 MessagePartBody attachment = serviceGmail.users().messages().attachments().get("me", messageId, attachmentId).execute();
-
                 byte[] fileByteArray = attachment.decodeData();
-                FileOutputStream fos = new FileOutputStream(filename);
-                fos.write(fileByteArray);
-                fos.close();
-
-                File fileMetadata = new File();
-                fileMetadata.setName(filename);
-                if (folderId != null) {
-                    fileMetadata.setParents(Collections.singletonList(folderId));
-                }
-
+                saveAndUploadFile(fileByteArray, folderId, filename);
+            } else {
                 java.io.File tempFile = new java.io.File(filename);
-                FileContent mediaContent = new FileContent("application/pdf", tempFile);
-
-                driveService.files().create(fileMetadata, mediaContent).setSupportsTeamDrives(true).execute();
-
+                byte[] fileByteArray = Files.readAllBytes(tempFile.toPath());
+                saveAndUploadFile(fileByteArray, folderId, filename);
                 tempFile.delete();
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void saveAndUploadFile(byte[] fileByteArray, String folderId, String filename) throws IOException {
+        File fileMetadata = new File();
+        fileMetadata.setName(filename);
+
+        if (folderId != null) {
+            fileMetadata.setParents(Collections.singletonList(folderId));
+        }
+
+        ByteArrayContent mediaContent = new ByteArrayContent("application/pdf", fileByteArray);
+
+        driveService.files().create(fileMetadata, mediaContent).setSupportsTeamDrives(true).execute();
+    }
 
         public void deleteDuplicateFilesInDrive() {
             try {
