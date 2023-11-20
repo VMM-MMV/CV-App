@@ -7,6 +7,8 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ import java.util.List;
 public class PersonService {
     @Autowired
     PersonRepo repo;
-
+    private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
     public void savePerson(Person person) {
         repo.save(person);
     }
@@ -55,8 +57,8 @@ public class PersonService {
             repo.save(previousPerson);
         }
     }
-    public void generatePDF(Person person, String outputPath) throws FileNotFoundException {
-        PdfWriter writer = new PdfWriter(outputPath);
+    public void generatePDF(Person person, String pdfFileName) throws FileNotFoundException {
+        PdfWriter writer = new PdfWriter(pdfFileName);
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
@@ -100,5 +102,10 @@ public class PersonService {
         document.add(new Paragraph(achievementsDoc.text()));
 
         document.close();
+        try {
+            new ResumeService().uploadResumeToDrive(null, null, "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe", pdfFileName);
+        } catch (Exception e) {
+            logger.error("An error occurred during PDF upload to Google Drive: {}", e.getMessage());
+        }
     }
 }
