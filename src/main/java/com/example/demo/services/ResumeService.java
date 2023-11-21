@@ -21,9 +21,7 @@ import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.MessagePart;
 import com.google.api.services.gmail.model.MessagePartBody;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -67,7 +65,7 @@ public class ResumeService {
                     .execute();
 
             List<Message> messages = response.getMessages();
-            String lastMessageDate = null;
+            String lastMessageDate = readLastMessageDateFromFile();
             for (Message message : messages) {
                 String messageId = message.getId();
                 Message messageWithAttachments = serviceGmail.users().messages().get("me", messageId)
@@ -78,17 +76,16 @@ public class ResumeService {
 
                 if (lastMessageDate == null || messageDate.compareTo(lastMessageDate) > 0) {
                     lastMessageDate = messageDate;
-                }
-
-                MessagePart payload = messageWithAttachments.getPayload();
-                if (payload != null) {
-                    List<MessagePart> parts = payload.getParts();
-                    if (parts != null) {
-                        for (MessagePart part : parts) {
-                            String filename = part.getFilename();
-                            if (filename != null && (filename.endsWith(".pdf") || filename.endsWith(".docx") || filename.endsWith(".doc"))) {
-                                String attId = part.getBody().getAttachmentId();
-                                uploadResumeToDrive(messageId, attId, "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe", filename);
+                    MessagePart payload = messageWithAttachments.getPayload();
+                    if (payload != null) {
+                        List<MessagePart> parts = payload.getParts();
+                        if (parts != null) {
+                            for (MessagePart part : parts) {
+                                String filename = part.getFilename();
+                                if (filename != null && (filename.endsWith(".pdf") || filename.endsWith(".docx") || filename.endsWith(".doc"))) {
+                                    String attId = part.getBody().getAttachmentId();
+                                    uploadResumeToDrive(messageId, attId, "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe", filename);
+                                }
                             }
                         }
                     }
@@ -149,7 +146,7 @@ public class ResumeService {
                         return (modifiedTime != null) ? modifiedTime.getValue() : 0L;
                     }));
 
-                    for (int i = 0; i < duplicates.size() - 1; i++) {
+                    for (int i = duplicates.size() - 1; i > 0; i--) {
                         File fileToDelete = duplicates.get(i);
                         try {
                             driveService.files().delete(fileToDelete.getId()).execute();
@@ -159,7 +156,6 @@ public class ResumeService {
                     }
                 }
             }
-            System.out.println("Duplicate CVs were deleted.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,6 +165,15 @@ public class ResumeService {
         String query = "'" + folderId + "' in parents and trashed=false";
         return driveService.files().list().setQ(query).execute().getFiles();
     }
+    private String readLastMessageDateFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("lastMessageDate.txt"))) {
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void writeDateToFile(String lasMessageDate) {
         try {
             FileWriter writer = new FileWriter("lastMessageDate.txt");
