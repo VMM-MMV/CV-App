@@ -30,7 +30,6 @@ public class ResumeService {
     private final Gmail serviceGmail;
     private final Drive driveService;
 
-
     public ResumeService() throws Exception {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
@@ -108,7 +107,6 @@ public class ResumeService {
                 java.io.File tempFile = new java.io.File(filename);
                 byte[] fileByteArray = Files.readAllBytes(tempFile.toPath());
                 saveAndUploadFile(fileByteArray, folderId, filename);
-                tempFile.delete();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -165,6 +163,7 @@ public class ResumeService {
         String query = "'" + folderId + "' in parents and trashed=false";
         return driveService.files().list().setQ(query).execute().getFiles();
     }
+
     private String readLastMessageDateFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader("lastMessageDate.txt"))) {
             return reader.readLine();
@@ -183,6 +182,7 @@ public class ResumeService {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) throws Exception {
         new ResumeService().listMessagesWithAttachments();
         new ResumeService().deleteDuplicateFilesInDrive();
