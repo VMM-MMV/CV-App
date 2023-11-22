@@ -32,10 +32,6 @@
   display: flex;
 }
 
-#opacity {
-  opacity: 1;
-}
-
 .aside-nav{
   position: fixed;
   left: 0;
@@ -44,6 +40,22 @@
   width: 240px;
   padding: 20px 50px 35px;
   background: #a47fc9;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: block;
+}
+
+.footer-aside {
+  margin: auto -10px 0 -30px;
+  position: relative;
 }
 
 .App-header {
@@ -145,6 +157,10 @@ h1, h2 {
   font-weight: 700;
   line-height: 1.2;
   color: #002d6b;
+}
+
+.initial {
+  text-align: center;
 }
 
 .main-page {
@@ -388,13 +404,18 @@ h1, h2 {
 }
 
 .button-back {
-  margin-left: 280px;
+  margin-left: 0;
   margin-right: 0;
 }
 
 .button-next {
   margin-right: 108px;
   margin-left: 0;
+}
+
+.button-create {
+  margin-top: 40px;
+  margin-left: 230px;
 }
 
 .first-page .button-next {

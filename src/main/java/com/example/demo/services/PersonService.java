@@ -21,12 +21,14 @@ import java.util.List;
 public class PersonService {
     @Autowired
     PersonRepo repo;
+
     private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
+
     public void savePerson(Person person) {
         repo.save(person);
     }
 
-    public List<Person> getAllPersons(){
+    public List<Person> getAllPersons() {
         return new ArrayList<>(repo.findAll());
     }
 
@@ -57,12 +59,13 @@ public class PersonService {
             repo.save(previousPerson);
         }
     }
+
     public void generatePDF(Person person, String pdfFileName) throws FileNotFoundException {
         PdfWriter writer = new PdfWriter(pdfFileName);
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
-        document.add(new Paragraph("First Name: "+person.getName() + " " + "Lats Name: " +person.getLastname()));
+        document.add(new Paragraph("First Name: " + person.getName() + " Last Name: " + person.getLastname()));
         document.add(new Paragraph("Date of Birth: " + person.getBirthdate()));
         document.add(new Paragraph("Address: " + person.getAddress() + ", " + person.getCity()));
         document.add(new Paragraph("Email: " + person.getEmail()));
@@ -73,16 +76,12 @@ public class PersonService {
         document.add(new Paragraph("Has Kids: " + person.getHasKids()));
 
         document.add(new Paragraph("\nEDUCATION"));
-        document.add(new Paragraph(person.getEducation() + " from " + person.getSchool()
-                + ", " + person.getCitySchool()
-                + " (" + person.getStartDateStudy()
-                + " to " + person.getEndDateStudy() + ")"));
+        document.add(new Paragraph(person.getEducation() + " from " + person.getSchool() + ", " + person.getCitySchool() +
+                " (" + person.getStartDateStudy() + " to " + person.getEndDateStudy() + ")"));
 
         document.add(new Paragraph("\nWORK EXPERIENCE"));
-        document.add(new Paragraph(person.getTitleJob() + " at " + person.getEmployer()
-                + ", " + person.getCityJob()
-                + " (" + person.getStartDateJob()
-                + " to " + person.getEndDateJob() + ")"));
+        document.add(new Paragraph(person.getTitleJob() + " at " + person.getEmployer() + ", " + person.getCityJob() +
+                " (" + person.getStartDateJob() + " to " + person.getEndDateJob() + ")"));
 
         org.jsoup.nodes.Document descriptionDoc = Jsoup.parse(person.getDescriptionJob());
         document.add(new Paragraph("Description Job: " + descriptionDoc.text()));
@@ -94,18 +93,8 @@ public class PersonService {
         document.add(new Paragraph(person.getLanguage() + " (" + person.getLevelLanguage() + ")"));
 
         document.add(new Paragraph("\nHOBBIES"));
-        document.add(new Paragraph(person.getHobby()));
-
-        org.jsoup.nodes.Document achievementsDoc = Jsoup.parse(person.getAchievements());
-
-        document.add(new Paragraph("\nACHIEVEMENTS"));
-        document.add(new Paragraph(achievementsDoc.text()));
-
+        document.add(new Paragraph(person.getHobbies()));
+        
         document.close();
-        try {
-            new ResumeService().uploadResumeToDrive(null, null, "1KFTjVjo4qfR5-HsRQqKSTBk7RKyO5WKe", pdfFileName);
-        } catch (Exception e) {
-            logger.error("An error occurred during PDF upload to Google Drive: {}", e.getMessage());
-        }
     }
 }
