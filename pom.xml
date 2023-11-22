@@ -68,11 +68,13 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.16.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>kernel</artifactId>
-			<version>7.1.18</version> <!-- Use the latest version available -->
+			<version>7.1.18</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
@@ -98,6 +100,11 @@
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-drive</artifactId>
 			<version>v3-rev20230822-2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>layout</artifactId>
+			<version>8.0.1</version>
 		</dependency>
 
 	</dependencies>
