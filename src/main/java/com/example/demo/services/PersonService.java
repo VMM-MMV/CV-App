@@ -6,72 +6,29 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-import jakarta.annotation.PostConstruct;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class PersonService {
     @Autowired
     PersonRepo repo;
 
-    @Value("${SQLCONNSTR_DATABASE_URL:default_value}")
-    private String dbUrl;
-
-    @Value("${SQLCONNSTR_DATABASE_USERNAME:default_value}")
-    private String dbUsername;
-
-    @Value("${SQLCONNSTR_DATABASE_PASSWORD:default_value}")
-    private String dbPassword;
-
-    @PostConstruct
-    public void writePropertiesFile() {
-        Properties prop = new Properties();
-        OutputStream output = null;
-
-        try {
-            output = new FileOutputStream("application.properties");
-
-            // set the properties value
-            prop.setProperty("spring.datasource.url", dbUrl);
-            prop.setProperty("spring.datasource.username", dbUsername);
-            prop.setProperty("spring.datasource.password", dbPassword);
-            prop.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
-            prop.setProperty("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            prop.setProperty("spring.jpa.hibernate.ddl-auto", "update");
-
-            // save properties to project root folder
-            prop.store(output, null);
-
-        } catch (IOException io) {
-            io.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+    private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     public void savePerson(Person person) {
         repo.save(person);
     }
 
-    public List<Person> getAllPersons(){
+    public List<Person> getAllPersons() {
         return new ArrayList<>(repo.findAll());
     }
 
@@ -102,13 +59,13 @@ public class PersonService {
             repo.save(previousPerson);
         }
     }
-    public void generatePDF(Person person, String outputPath) throws FileNotFoundException {
-        PdfWriter writer = new PdfWriter(outputPath);
-        PdfDocument pdf = new PdfDocument(writer);
 
+    public void generatePDF(Person person, String pdfFileName) throws FileNotFoundException {
+        PdfWriter writer = new PdfWriter(pdfFileName);
+        PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
-        document.add(new Paragraph("First Name: "+person.getName() + " " + "Lats Name: " +person.getLastname()));
+        document.add(new Paragraph("First Name: " + person.getName() + " Last Name: " + person.getLastname()));
         document.add(new Paragraph("Date of Birth: " + person.getBirthdate()));
         document.add(new Paragraph("Address: " + person.getAddress() + ", " + person.getCity()));
         document.add(new Paragraph("Email: " + person.getEmail()));
@@ -119,16 +76,12 @@ public class PersonService {
         document.add(new Paragraph("Has Kids: " + person.getHasKids()));
 
         document.add(new Paragraph("\nEDUCATION"));
-        document.add(new Paragraph(person.getEducation() + " from " + person.getSchool()
-                + ", " + person.getCitySchool()
-                + " (" + person.getStartDateStudy()
-                + " to " + person.getEndDateStudy() + ")"));
+        document.add(new Paragraph(person.getEducation() + " from " + person.getSchool() + ", " + person.getCitySchool() +
+                " (" + person.getStartDateStudy() + " to " + person.getEndDateStudy() + ")"));
 
         document.add(new Paragraph("\nWORK EXPERIENCE"));
-        document.add(new Paragraph(person.getTitleJob() + " at " + person.getEmployer()
-                + ", " + person.getCityJob()
-                + " (" + person.getStartDateJob()
-                + " to " + person.getEndDateJob() + ")"));
+        document.add(new Paragraph(person.getTitleJob() + " at " + person.getEmployer() + ", " + person.getCityJob() +
+                " (" + person.getStartDateJob() + " to " + person.getEndDateJob() + ")"));
 
         org.jsoup.nodes.Document descriptionDoc = Jsoup.parse(person.getDescriptionJob());
         document.add(new Paragraph("Description Job: " + descriptionDoc.text()));
@@ -140,13 +93,8 @@ public class PersonService {
         document.add(new Paragraph(person.getLanguage() + " (" + person.getLevelLanguage() + ")"));
 
         document.add(new Paragraph("\nHOBBIES"));
-        document.add(new Paragraph(person.getHobby()));
-
-        org.jsoup.nodes.Document achievementsDoc = Jsoup.parse(person.getAchievements());
-
-        document.add(new Paragraph("\nACHIEVEMENTS"));
-        document.add(new Paragraph(achievementsDoc.text()));
-
+        document.add(new Paragraph(person.getHobbies()));
+        
         document.close();
     }
 }
