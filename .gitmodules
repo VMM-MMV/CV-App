@@ -1,0 +1,6 @@
+[submodule "Backend"]
+	path = Backend
+	url = https://github.com/VMM-MMV/CV-App-Back
+[submodule "Frontend"]
+	path = Frontend
+	url = https://github.com/VMM-MMV/CV-App-Front

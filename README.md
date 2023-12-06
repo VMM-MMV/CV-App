@@ -2,7 +2,7 @@
 
 CV Generator Web Application is designed to simplify the creation of professional CVs, enabling users to enter their information one time and then send it to the employer. After submitting the CV data, a PDF file is generated in a format that can be used by the employer to continue the business process of hiring employees.
 
-## Table of Contents 
+## Table of Contents
 
 - [About](#about)
 - [Tech Stack Overview](#tech-stack-overview)
@@ -22,7 +22,7 @@ Our CV Generator project is built using various technologies, each serving a spe
 ### Backend with Java:
 - [![Java][java_badge]][java_link]: The main language we use for writing our backend logic.
 - [![Spring Boot][spring_boot_badge]][spring_boot_link]: Helps us get our application running quickly with less manual configuration.
-- [![PostgreSQL][postgresql_badge]][postgresql_link]: This is where all our data is stored. 
+- [![PostgreSQL][postgresql_badge]][postgresql_link]: This is where all our data is stored.
 - [![Maven][maven_badge]][maven_link]: Tool that help us manage external code libraries that our application depends on.
 
 ### Frontend with React.js, HTML, CSS:
@@ -46,7 +46,7 @@ These instructions will get you a copy of the project up and running on your loc
 - PostgreSQL server for database hosting.
 - Node.js and npm installed for the frontend JavaScript components.
 
-### Instalation 
+### Instalation
 
 1. **Clone the repository**
 
